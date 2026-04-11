@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google広告 入稿方法 | 新人研修資料</title>
+  <meta name="description" content="新人向けGoogle広告入稿方法の研修資料。アカウント作成からキャンペーン設定、最適化、トラブルシューティングまでを網羅。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --google-blue: #4285F4;
+      --google-red: #EA4335;
+      --google-yellow: #FBBC05;
+      --google-green: #34A853;
+      --primary: #1a73e8;
+      --primary-dark: #0d47a1;
+      --primary-light: #e8f0fe;
+      --surface: #ffffff;
+      --surface-2: #f8f9fa;
+      --surface-3: #f1f3f4;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --text-tertiary: #80868b;
+      --border: #e0e0e0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f0f4ff;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, #0d47a1 0%, #1565c0 40%, #1976d2 70%, #42a5f5 100%);
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 60%;
+      height: 200%;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+      animation: float1 8s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: -10%;
+      width: 50%;
+      height: 150%;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      animation: float2 10s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(20px) rotate(-5deg); }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge::before {
+      content: '📋';
+      font-size: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, #FBBC05, #FF6D00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 2vw, 18px);
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .hero-meta-item .icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* ─── NAV ─── */
+    .nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ─── SECTION ─── */
+    .section {
+      margin-bottom: 64px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .section-number {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), #42a5f5);
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.4);
+    }
+
+    .section-title-wrap h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .section-title-wrap p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ─── CARD ─── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-light), #e3f2fd);
+      padding: 16px 24px;
+      border-bottom: 1px solid #c5d8f8;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-header .icon {
+      font-size: 20px;
+    }
+
+    .card-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* ─── GRID ─── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    /* ─── HIERARCHY DIAGRAM ─── */
+    .hierarchy {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 8px 0;
+    }
+
+    .hierarchy-level {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .hierarchy-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 8px;
+      min-width: 24px;
+    }
+
+    .hierarchy-connector .line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .hierarchy-connector .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin: 4px 0;
+      flex-shrink: 0;
+    }
+
+    .hierarchy-box {
+      flex: 1;
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      margin: 4px 0;
+      position: relative;
+    }
+
+    .h-lv1 { background: linear-gradient(135deg, #e8f0fe, #d2e3fc); border-left: 4px solid var(--google-blue); }
+    .h-lv2 { background: linear-gradient(135deg, #e6f4ea, #ceead6); border-left: 4px solid var(--google-green); margin-left: 24px; }
+    .h-lv3 { background: linear-gradient(135deg, #fef7e0, #fde68a); border-left: 4px solid var(--google-yellow); margin-left: 48px; }
+    .h-lv4 { background: linear-gradient(135deg, #fce8e6, #f8c8c5); border-left: 4px solid var(--google-red); margin-left: 72px; }
+
+    .hierarchy-box .level-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+
+    .hierarchy-box h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .hierarchy-box p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ─── STEP LIST ─── */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 20px;
+      background: var(--surface-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .step-item:hover {
+      border-color: #a8c4f0;
+      box-shadow: var(--shadow-sm);
+      background: #f0f6ff;
+      transform: translateX(4px);
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), #42a5f5);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(26,115,232,0.35);
+    }
+
+    .step-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .step-content p, .step-content ul {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .step-content ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .step-content ul li {
+      margin-bottom: 3px;
+    }
+
+    /* ─── INFO BOX ─── */
+    .info-box {
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    .info-box.blue {
+      background: #e8f0fe;
+      border-left: 4px solid var(--google-blue);
+      color: #1a237e;
+    }
+
+    .info-box.green {
+      background: #e6f4ea;
+      border-left: 4px solid var(--google-green);
+      color: #1b5e20;
+    }
+
+    .info-box.yellow {
+      background: #fff8e1;
+      border-left: 4px solid var(--google-yellow);
+      color: #6d4c00;
+    }
+
+    .info-box.red {
+      background: #fce8e6;
+      border-left: 4px solid var(--google-red);
+      color: #7f0000;
+    }
+
+    .info-box .info-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── SETTING TABLE ─── */
+    .setting-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .setting-table th {
+      background: linear-gradient(135deg, var(--primary), #42a5f5);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .setting-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .setting-table tr:nth-child(even) td {
+      background: var(--surface-2);
+    }
+
+    .setting-table tr:hover td {
+      background: var(--primary-light);
+    }
+
+    .setting-table .label {
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .setting-table .value {
+      color: var(--text-secondary);
+    }
+
+    .setting-table .example {
+      font-size: 13px;
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    /* ─── TAG ─── */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .tag-blue { background: #e8f0fe; color: var(--primary); }
+    .tag-green { background: #e6f4ea; color: #137333; }
+    .tag-yellow { background: #fff8e1; color: #f57f17; }
+    .tag-red { background: #fce8e6; color: #c62828; }
+    .tag-gray { background: #f1f3f4; color: var(--text-secondary); }
+
+    /* ─── TARGET GRID ─── */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .target-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .target-card:hover {
+      border-color: #a8c4f0;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      background: var(--surface);
+    }
+
+    .target-card .t-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .target-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .target-card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* ─── TROUBLE CARDS ─── */
+    .trouble-item {
+      display: flex;
+      gap: 20px;
+      padding: 20px 24px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .trouble-item:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #a8c4f0;
+    }
+
+    .trouble-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .trouble-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--google-red);
+      margin-bottom: 8px;
+    }
+
+    .trouble-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .solution-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .solution-list li {
+      list-style: none;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .solution-list li::before {
+      content: '✓';
+      color: var(--google-green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── SUMMARY BOX ─── */
+    .summary-box {
+      background: linear-gradient(135deg, #0d47a1, #1565c0);
+      color: white;
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      text-align: center;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-box::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 40%;
+      height: 200%;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .summary-box h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .summary-box p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .flow-steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: relative;
+    }
+
+    .flow-step {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .flow-arrow {
+      color: rgba(255,255,255,0.5);
+      font-size: 18px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--text-tertiary);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    /* ─── UTIL ─── */
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .flex-col { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero { padding: 56px 16px 72px; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .flow-steps { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+      .summary-box { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<header class="hero">
+  <div class="hero-badge">新人研修資料 2025年度版</div>
+  <h1>Google広告<br /><span>入稿方法</span> 完全ガイド</h1>
+  <p class="hero-sub">アカウント作成からキャンペーン設定・最適化まで、広告運用の基礎をステップで学ぶ研修テキストです。</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="icon">📌</div>対象：入社1〜3ヶ月の新人</div>
+    <div class="hero-meta-item"><div class="icon">⏱️</div>所要時間：約60〜90分</div>
+    <div class="hero-meta-item"><div class="icon">🎯</div>目標：一人でキャンペーン作成ができる</div>
+  </div>
+</header>
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="nav-wrapper" aria-label="セクションナビゲーション">
+  <div class="nav-inner">
+    <a href="#section-intro" class="nav-item">📖 入稿とは</a>
+    <a href="#section-structure" class="nav-item">🏗️ 階層構造</a>
+    <a href="#section-account" class="nav-item">👤 アカウント作成</a>
+    <a href="#section-campaign" class="nav-item">📢 キャンペーン設定</a>
+    <a href="#section-group" class="nav-item">📁 グループ設定</a>
+    <a href="#section-ad" class="nav-item">🎬 広告作成</a>
+    <a href="#section-optimize" class="nav-item">⚙️ 詳細設定</a>
+    <a href="#section-trouble" class="nav-item">🛠️ トラブル対応</a>
+    <a href="#section-keyword" class="nav-item">🔍 KWプランナー</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ─── 1. 入稿とは ─── -->
+  <section id="section-intro" class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title-wrap">
+        <h2>入稿とは？</h2>
+        <p>広告配信の基本概念を理解しましょう</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><span class="icon">📝</span><h3>入稿の定義</h3></div>
+        <div class="card-body">
+          <p style="font-size:15px; margin-bottom:16px;">
+            <strong>広告をシステムに登録し、配信できる状態にする作業</strong>のことを「入稿」と呼びます。
+          </p>
+          <p style="font-size:14px; color: var(--text-secondary);">
+            単に動画をアップロードするだけでなく、以下の設定をすべて完了した状態を指します。
+          </p>
+          <ul style="padding-left:20px; margin-top:12px; font-size:14px; color: var(--text-secondary);">
+            <li>どの地域に配信するか（配信地域）</li>
+            <li>誰に見せるか（ターゲット設定）</li>
+            <li>どんな広告を出すか（広告クリエイティブ）</li>
+            <li>いくら使うか（予算・入札）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="icon">🔄</span><h3>入稿〜配信の流れ</h3></div>
+        <div class="card-body">
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>設定・入稿</h4>
+                <p>Google広告管理画面でキャンペーン〜広告を作成・登録する</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>ポリシー審査</h4>
+                <p>Googleが広告ポリシーに違反していないか確認（通常数時間〜1営業日）</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>審査通過・配信開始</h4>
+                <p>承認後、設定した条件に従って自動的に配信が開始される</p>
+              </div>
+            </div>
+          </div>
+          <div class="info-box yellow mt-16">
+            <span class="info-icon">⚠️</span>
+            <p>審査中は「審査中」ステータスで表示されます。配信開始まで数時間かかることがあります。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 2. 階層構造 ─── -->
+  <section id="section-structure" class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title-wrap">
+        <h2>Google広告の階層構造</h2>
+        <p>4つの階層を理解することが運用の第一歩</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="icon">🏗️</span><h3>4層構造の全体像</h3></div>
+      <div class="card-body">
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">
+          Google広告は「アカウント → キャンペーン → 広告グループ → 広告」という4段階の入れ子構造になっています。それぞれの役割を理解することが大切です。
+        </p>
+        <div class="hierarchy">
+          <div class="hierarchy-box h-lv1">
+            <div class="level-label">Level 1</div>
+            <h4>🏢 アカウント</h4>
+            <p>クライアント企業単位で作成。社名・支払い情報（クレジットカード）を管理します。</p>
+          </div>
+          <div class="hierarchy-box h-lv2">
+            <div class="level-label">Level 2</div>
+            <h4>📢 キャンペーン</h4>
+            <p>予算・配信地域・入札戦略を設定。広告の大きな目的単位で分けます。</p>
+          </div>
+          <div class="hierarchy-box h-lv3">
+            <div class="level-label">Level 3</div>
+            <h4>📁 広告グループ</h4>
+            <p>ターゲット（年齢・性別・興味等）・デバイス・配信スケジュールを設定。</p>
+          </div>
+          <div class="hierarchy-box h-lv4">
+            <div class="level-label">Level 4</div>
+            <h4>🎬 広告</h4>
+            <p>実際に表示されるクリエイティブ（動画・画像・テキスト）と入札単価を設定。</p>
+          </div>
+        </div>
+
+        <div class="info-box blue mt-16">
+          <span class="info-icon">💡</span>
+          <p><strong>ポイント：</strong>上位の設定は下位に引き継がれます。例えば「キャンペーン」で設定した配信地域は、その配下の全グループ・広告に適用されます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 3. アカウント作成 ─── -->
+  <section id="section-account" class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title-wrap">
+        <h2>アカウント作成手順</h2>
+        <p>代理店として新規クライアントアカウントを作成する方法</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="icon">👤</span><h3>アカウント作成の流れ</h3></div>
+      <div class="card-body">
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Google広告管理画面にログイン</h4>
+              <p>代理店のマネージャーアカウント（MCC）からアクセスします。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>本人確認（スマートフォン通知）</h4>
+              <p>セキュリティ確認のため、登録済みのスマートフォンに通知が送られます。承認を忘れずに行いましょう。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>基本情報の入力</h4>
+              <ul>
+                <li><strong>アカウント名：</strong>クライアントの社名（管理しやすい名前で）</li>
+                <li><strong>通貨：</strong>日本円（JPY）を選択</li>
+                <li><strong>タイムゾーン：</strong>日本標準時（JST, UTC+9）</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>支払い情報の設定</h4>
+              <p>クレジットカード情報の登録またはクライアントへの請求設定を行います。</p>
+            </div>
+          </div>
+        </div>
+        <div class="info-box red mt-16">
+          <span class="info-icon">🚨</span>
+          <p><strong>重要：</strong>通貨とタイムゾーンは作成後に変更できません。必ず<strong>日本円・日本標準時</strong>で作成してください。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4. キャンペーン設定 ─── -->
+  <section id="section-campaign" class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title-wrap">
+        <h2>キャンペーン設定</h2>
+        <p>広告の目的・予算・配信条件を決める</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><span class="icon">📋</span><h3>基本設定項目</h3></div>
+        <div class="card-body">
+          <table class="setting-table">
+            <thead>
+              <tr>
+                <th>設定項目</th>
+                <th>内容・例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">キャンペーン名</td>
+                <td><span class="value">管理しやすい名前をつける</span><br /><span class="example">例：〇〇店_YouTube_2025Q1</span></td>
+              </tr>
+              <tr>
+                <td class="label">配信開始日</td>
+                <td><span class="value">クライアントが希望する配信スタート日</span></td>
+              </tr>
+              <tr>
+                <td class="label">配信終了日</td>
+                <td><span class="value">設定しない場合は無期限配信</span></td>
+              </tr>
+              <tr>
+                <td class="label">言語</td>
+                <td><span class="value">日本語を選択</span></td>
+              </tr>
+              <tr>
+                <td class="label">広告フォーマット</td>
+                <td><span class="value">スキップ可能なインストリーム広告</span></td>
+              </tr>
+              <tr>
+                <td class="label">予算</td>
+                <td><span class="value">1日あたりの上限金額を設定</span><br /><span class="example">例：3,000円/日</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="icon">🎬</span><h3>広告フォーマットの種類</h3></div>
+        <div class="card-body">
+          <div class="flex-col">
+            <div class="step-item">
+              <div style="font-size:24px; flex-shrink:0;">▶️</div>
+              <div class="step-content">
+                <h4>スキップ可能なインストリーム広告</h4>
+                <p>5秒後にスキップ可能。30秒以上視聴 or 最後まで視聴した場合のみ課金。<strong>最もよく使うフォーマット。</strong></p>
+                <span class="tag tag-green" style="margin-top:6px;">★ 主力フォーマット</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div style="font-size:24px; flex-shrink:0;">⏯️</div>
+              <div class="step-content">
+                <h4>スキップ不可のインストリーム広告</h4>
+                <p>15秒以内の動画。必ず全部視聴される。CPM（1,000回表示）課金。</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div style="font-size:24px; flex-shrink:0;">⚡</div>
+              <div class="step-content">
+                <h4>バンパー広告</h4>
+                <p>6秒以内のスキップ不可動画。短いインパクト重視の広告。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. グループ設定 ─── -->
+  <section id="section-group" class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title-wrap">
+        <h2>広告グループ設定</h2>
+        <p>誰に・いつ・どのデバイスで見せるかを決める</p>
+      </div>
+    </div>
+
+    <div class="card mb-24">
+      <div class="card-header"><span class="icon">📁</span><h3>グループ名の命名ルール</h3></div>
+      <div class="card-body">
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:12px;">グループ名は管理しやすさのために<strong>ルールを統一</strong>しましょう。</p>
+        <div class="info-box blue">
+          <span class="info-icon">📌</span>
+          <p><strong>推奨命名例：</strong>店舗名 + バージョン<br />例：「〇〇美容室_Ver.1」「〇〇美容室_女性30代」</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="target-card">
+        <div class="t-icon">👥</div>
+        <h4>オーディエンス（属性）</h4>
+        <p>年齢・性別・世帯収入などの人口統計データで絞り込む</p>
+      </div>
+      <div class="target-card">
+        <div class="t-icon">📱</div>
+        <h4>デバイス</h4>
+        <p>PC・モバイル・タブレット・テレビから配信するデバイスを選択</p>
+      </div>
+      <div class="target-card">
+        <div class="t-icon">🕐</div>
+        <h4>配信スケジュール</h4>
+        <p>曜日・時間帯を15分単位で細かく設定可能</p>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <div class="card-header"><span class="icon">👤</span><h3>オーディエンス設定の目安</h3></div>
+      <div class="card-body">
+        <table class="setting-table">
+          <thead>
+            <tr>
+              <th>属性</th>
+              <th>選択肢</th>
+              <th>補足</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label">年齢</td>
+              <td>18〜24歳 / 25〜34歳 / 35〜44歳<br />45〜54歳 / 55〜64歳 / 65歳以上</td>
+              <td class="value">クライアントのターゲット層に合わせて選択</td>
+            </tr>
+            <tr>
+              <td class="label">性別</td>
+              <td>男性 / 女性 / 不明</td>
+              <td class="value">「不明」も含めることで取りこぼしを防ぐ</td>
+            </tr>
+            <tr>
+              <td class="label">世帯収入</td>
+              <td>上位10% / 11〜20% / 21〜30% ...</td>
+              <td class="value">高級商材などで有効。精度は参考程度に。</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="info-box yellow mt-16">
+          <span class="info-icon">⚠️</span>
+          <p>ターゲットを絞りすぎるとリーチが下がります。最初は広めに設定して、データが溜まったら絞るのが基本戦略です。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 6. 広告作成 ─── -->
+  <section id="section-ad" class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title-wrap">
+        <h2>広告の作成と入稿</h2>
+        <p>実際の広告コンテンツを登録する</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><span class="icon">🎬</span><h3>広告コンテンツの入力</h3></div>
+        <div class="card-body">
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>YouTube動画URLを入力</h4>
+                <p>クライアント（オーナー）から提供された<strong>YouTube動画のURL</strong>をそのまま貼り付けます。</p>
+                <div class="info-box blue" style="margin-top:8px;">
+                  <span class="info-icon">📌</span>
+                  <p>動画は事前にクライアントのYouTubeチャンネルにアップロードされている必要があります。</p>
+                </div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>最終リンク先URLを入力</h4>
+                <p>広告クリック後に遷移するページのURL（クライアントのHP・ランディングページ等）を入力します。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="icon">💰</span><h3>入札設定と完了</h3></div>
+        <div class="card-body">
+          <table class="setting-table" style="margin-bottom:16px;">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">入札タイプ</td>
+                <td><span class="value">広告視聴単価（CPV）</span></td>
+              </tr>
+              <tr>
+                <td class="label">設定例</td>
+                <td><span class="example">10円/視聴（目安）</span></td>
+              </tr>
+              <tr>
+                <td class="label">完了操作</td>
+                <td><span class="value">「キャンペーンの作成」ボタンをクリック</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="info-box green">
+            <span class="info-icon">✅</span>
+            <p>「キャンペーンの作成」後、<strong>ポリシー審査</strong>が自動でスタートします。審査通過後に配信開始。</p>
+          </div>
+          <div class="info-box yellow mt-16">
+            <span class="info-icon">⚠️</span>
+            <p><strong>CPV（広告視聴単価）とは：</strong>ユーザーが30秒以上（または動画の最後まで）視聴した場合に課金される仕組みです。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 7. 詳細設定・最適化 ─── -->
+  <section id="section-optimize" class="section">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title-wrap">
+        <h2>詳細設定と最適化</h2>
+        <p>より精度の高い広告配信のための設定</p>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">📍</span><h3>配信地域の設定</h3></div>
+        <div class="card-body">
+          <div class="step-list">
+            <div class="step-item">
+              <div style="font-size:20px; flex-shrink:0; margin-top:4px;">🎯</div>
+              <div class="step-content">
+                <h4>半径指定</h4>
+                <p>店舗の住所を中心に<strong>半径○km</strong>以内のユーザーに配信。</p>
+                <ul style="margin-top:6px;">
+                  <li>最小：1km</li>
+                  <li>最大：800km</li>
+                  <li>1km以上は100m単位で細かく設定可能</li>
+                </ul>
+              </div>
+            </div>
+            <div class="step-item">
+              <div style="font-size:20px; flex-shrink:0; margin-top:4px;">🗺️</div>
+              <div class="step-content">
+                <h4>住所・エリア指定</h4>
+                <p>都市・都道府県・郵便番号などで指定する方法も使用可能。</p>
+              </div>
+            </div>
+          </div>
+          <div class="info-box blue mt-16">
+            <span class="info-icon">💡</span>
+            <p>実店舗ビジネスの場合は<strong>半径指定</strong>が最も効果的。商圏に合わせて設定しましょう。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="icon">🕐</span><h3>配信時間帯の設定</h3></div>
+        <div class="card-body">
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">15分単位で曜日・時間帯を細かく設定できます。</p>
+          <div class="info-box red">
+            <span class="info-icon">🌙</span>
+            <p><strong>推奨設定例：</strong>深夜帯（24時〜翌7時）は効果が低いため、配信をOFFに設定することを検討する。</p>
+          </div>
+          <table class="setting-table" style="margin-top:16px;">
+            <thead>
+              <tr>
+                <th>時間帯</th>
+                <th>特性</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">朝（7〜10時）</td>
+                <td class="value">通勤・通学時間帯。モバイル閲覧多め。</td>
+              </tr>
+              <tr>
+                <td class="label">昼（11〜14時）</td>
+                <td class="value">ランチタイム。モバイル閲覧多め。</td>
+              </tr>
+              <tr>
+                <td class="label">夕〜夜（18〜23時）</td>
+                <td class="value">最もアクティブな時間帯。効果が高い。</td>
+              </tr>
+              <tr>
+                <td class="label">深夜（0〜6時）</td>
+                <td class="value">視聴者が少ない。配信を停止するのが基本。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">🔁</span><h3>フリークエンシーキャップ</h3></div>
+        <div class="card-body">
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">
+            <strong>同一ユーザーへの広告表示・視聴回数を制限</strong>する機能。広告疲れ（アドファティーグ）を防ぎます。
+          </p>
+          <table class="setting-table">
+            <thead>
+              <tr>
+                <th>設定単位</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">月単位</td>
+                <td class="value">月間の接触回数を制限（例：月5回まで）</td>
+              </tr>
+              <tr>
+                <td class="label">週単位</td>
+                <td class="value">1週間の接触回数を制限（例：週2回まで）</td>
+              </tr>
+              <tr>
+                <td class="label">日単位</td>
+                <td class="value">1日の接触回数を制限（例：1日1回まで）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="info-box green mt-16">
+            <span class="info-icon">✅</span>
+            <p>同じユーザーが広告を見すぎると「うっとうしい」と感じてブランドイメージが悪化します。適切に制限を設けましょう。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="icon">🌐</span><h3>ネットワーク（GDN）設定</h3></div>
+        <div class="card-body">
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">YouTube以外のGoogleパートナーサイトへの配信可否を設定します。</p>
+          <div class="step-list">
+            <div class="step-item">
+              <div style="font-size:20px; flex-shrink:0;">📺</div>
+              <div class="step-content">
+                <h4>YouTube内のみ（推奨）</h4>
+                <p>YouTube動画および検索結果のみに配信。品質が高い。</p>
+                <span class="tag tag-green" style="margin-top:4px;">推奨設定</span>
+              </div>
+            </div>
+            <div class="step-item">
+              <div style="font-size:20px; flex-shrink:0;">🌐</div>
+              <div class="step-content">
+                <h4>GDNパートナーサイトも含む</h4>
+                <p>YouTubeの動画コンテンツパートナー（外部サイト）にも配信。リーチは増えるが品質にばらつきがある。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="icon">🎯</span><h3>ターゲティング詳細設定</h3></div>
+      <div class="card-body">
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">広告グループ内のターゲットをさらに絞り込む方法です。重ね合わせが可能です。</p>
+        <div class="target-grid">
+          <div class="target-card">
+            <div class="t-icon">💭</div>
+            <h4>興味関心</h4>
+            <p>特定のトピックに興味があるユーザーへの配信。ビジネス・料理・美容など。</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">🔍</div>
+            <h4>カスタム検索キーワード</h4>
+            <p>Googleで特定キーワードを検索したことがあるユーザーへの配信。</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">📰</div>
+            <h4>トピック</h4>
+            <p>特定カテゴリの動画コンテンツの周辺に配信する。</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">🔑</div>
+            <h4>キーワード</h4>
+            <p>指定したキーワードに関連する動画の前後・周辺に配信する。</p>
+          </div>
+          <div class="target-card" style="border-color:#f44336; background:#fff5f5;">
+            <div class="t-icon">🚫</div>
+            <h4>プレースメント</h4>
+            <p>特定チャンネルや動画に限定して配信。<strong>非推奨</strong>（リーチが极端に絞られる）。</p>
+            <span class="tag tag-red" style="margin-top:8px;">非推奨</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 8. トラブルシューティング ─── -->
+  <section id="section-trouble" class="section">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <div class="section-title-wrap">
+        <h2>トラブルシューティング</h2>
+        <p>配信が止まったときの原因特定と対処法</p>
+      </div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-icon">💸</div>
+      <div class="trouble-content">
+        <h4>予算が上限に達して配信が止まっている</h4>
+        <p>1日の予算上限に達すると自動的に配信が停止されます。</p>
+        <ul class="solution-list">
+          <li>管理画面でキャンペーンの「予算」を確認する</li>
+          <li>クライアントと相談のうえ、予算を増額する</li>
+          <li>配信スケジュールを見直して予算消化を分散させる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-icon">⚠️</div>
+      <div class="trouble-content">
+        <h4>ポリシー違反で広告が停止・不承認になっている</h4>
+        <p>Googleのポリシーに違反すると広告が配信停止または不承認になります。</p>
+        <ul class="solution-list">
+          <li>管理画面の「ポリシーの詳細」で違反理由を確認する</li>
+          <li>動画や広告文を修正してポリシーに準拠させる</li>
+          <li>修正後に再申請（再入稿）して審査を受ける</li>
+          <li>不明な場合はGoogleサポートへ問い合わせる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-icon">🎯</div>
+      <div class="trouble-content">
+        <h4>ターゲット設定が絞りすぎでリーチが取れていない</h4>
+        <p>ターゲットを絞りすぎると、配信対象ユーザーが極端に少なくなり、予算が消化されなくなります。</p>
+        <ul class="solution-list">
+          <li>ターゲット設定画面でリーチ予測数を確認する</li>
+          <li>年齢・性別・地域の範囲を広げてみる</li>
+          <li>フリークエンシーキャップを確認し、制限が厳しすぎないか見直す</li>
+          <li>プレースメント設定をしている場合は解除する</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-icon">🔄</div>
+      <div class="trouble-content">
+        <h4>その他の原因で配信が止まっている</h4>
+        <p>上記以外の原因も考えられます。</p>
+        <ul class="solution-list">
+          <li>キャンペーンが「一時停止」になっていないか確認する</li>
+          <li>配信開始日・終了日の設定を確認する</li>
+          <li>クレジットカードの決済エラーがないか確認する</li>
+          <li>動画がYouTubeで非公開・削除されていないか確認する</li>
+          <li>それでも解決しない場合は上長または社内Slackで相談する</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box green">
+      <span class="info-icon">💡</span>
+      <p><strong>基本の確認手順：</strong>配信が止まったら まず①予算 → ②ポリシー → ③ターゲット → ④その他 の順番で確認していきましょう。</p>
+    </div>
+  </section>
+
+  <!-- ─── 9. キーワードプランナー ─── -->
+  <section id="section-keyword" class="section">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <div class="section-title-wrap">
+        <h2>キーワードプランナーの活用</h2>
+        <p>効果的なキーワード選定のためのツール</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="icon">🔍</span><h3>キーワードプランナーとは</h3></div>
+      <div class="card-body">
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">
+          Google広告が無料で提供するリサーチツールです。キャンペーンのキーワード選定や市場調査に活用します。
+        </p>
+        <div class="grid-3">
+          <div class="target-card">
+            <div class="t-icon">🔎</div>
+            <h4>新しいキーワードの発見</h4>
+            <p>サービス・商品に関連するキーワードのアイデアを自動提案してくれる。</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">📊</div>
+            <h4>検索ボリューム調査</h4>
+            <p>特定キーワードが月間何回検索されているか確認できる。</p>
+          </div>
+          <div class="target-card">
+            <div class="t-icon">💹</div>
+            <h4>競合性・費用の予測</h4>
+            <p>キーワードの競合性や1クリックあたりの費用目安を把握できる。</p>
+          </div>
+        </div>
+        <div class="info-box blue mt-16">
+          <span class="info-icon">📌</span>
+          <p><strong>アクセス方法：</strong>Google広告管理画面 → ツールと設定 → キーワードプランナー</p>
+        </div>
+        <div class="step-list mt-16">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>業種・サービスキーワードを入力</h4>
+              <p>例：「美容室 北名古屋」「ネイルサロン 春日井」など、具体的な地名とサービス名で検索。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>関連キーワード候補を確認</h4>
+              <p>提案されたキーワードの「月間検索ボリューム」「競合性」「入札単価」を比較する。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>有効なキーワードをプランに追加</h4>
+              <p>ボリュームがあり、競合性が低めのキーワードを優先的に選定。カスタムターゲティングに活用する。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SUMMARY ─── -->
+  <div class="summary-box">
+    <h2>入稿の基本フロー まとめ</h2>
+    <p>以下の順番で設定を進めることで、スムーズに広告配信を開始できます。</p>
+    <div class="flow-steps">
+      <div class="flow-step">① アカウント作成</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">② キャンペーン作成</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">③ グループ設定</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">④ 広告登録・入稿</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑤ ポリシー審査</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑥ 配信開始</div>
+    </div>
+    <div style="margin-top:28px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+      <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:16px 24px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:6px;">💰</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.7);">通貨</div>
+        <div style="font-size:15px; font-weight:700;">日本円（JPY）</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:16px 24px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:6px;">🌍</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.7);">タイムゾーン</div>
+        <div style="font-size:15px; font-weight:700;">日本標準時（JST）</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:16px 24px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:6px;">🎬</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.7);">主力フォーマット</div>
+        <div style="font-size:15px; font-weight:700;">スキップ可能なインストリーム</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:16px 24px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:6px;">💴</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.7);">入札目安</div>
+        <div style="font-size:15px; font-weight:700;">CPV 10円/視聴〜</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Google広告 入稿方法 新人研修資料 &copy; 2025 | 社内研修用・社外秘</p>
+</footer>
+
+<script>
+  // ─── Active nav highlight on scroll ───
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('href') === '#' + current) {
+        item.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // ─── Smooth scroll on nav click ───
+  navItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(item.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ─── Fade-in animation on scroll ───
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(section => {
+    section.style.animationPlayState = 'paused';
+    observer.observe(section);
+  });
+</script>
+
+</body>
+</html>
