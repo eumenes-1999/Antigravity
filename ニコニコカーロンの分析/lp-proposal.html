@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LP改善提案レポート｜ニコニコカーローン 仮審査CV最大化のための図解資料</title>
+<style>
+/* ========== RESET & BASE ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;line-height:1.7;color:#222;background:#eef1f6}
+
+/* ========== HERO ========== */
+.hero{background:linear-gradient(135deg,#0d1b4a 0%,#1b3a8a 50%,#2563eb 100%);color:#fff;padding:56px 24px 48px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hero::before{content:'';position:absolute;left:-120px;bottom:-100px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.03)}
+.hero-sub{font-size:.88em;letter-spacing:4px;opacity:.65;margin-bottom:8px;text-transform:uppercase}
+.hero h1{font-size:2.2em;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+.hero-purpose{font-size:1em;opacity:.8;margin-bottom:24px}
+.hero-pills{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.hero-pill{background:rgba(255,255,255,.14);padding:6px 18px;border-radius:20px;font-size:.82em}
+
+/* ========== CONTAINER / SECTION ========== */
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.sec{background:#fff;margin:28px auto;max-width:1080px;border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,.06);overflow:hidden}
+.sec-head{padding:22px 30px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:14px}
+.sec-head h2{font-size:1.3em;color:#0d1b4a}
+.sec-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:1em;flex-shrink:0}
+.sec-body{padding:24px 30px 32px}
+
+/* ========== KPI ========== */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.kpi{border-radius:14px;padding:18px 14px;text-align:center;border:2px solid}
+.kpi .k-num{font-size:2em;font-weight:900;line-height:1.1}
+.kpi .k-label{font-size:.78em;color:#666;margin-top:4px}
+.kpi .k-sub{font-size:.7em;color:#999;margin-top:2px}
+.kpi.blue{border-color:#bfdbfe;background:#eff6ff}.kpi.blue .k-num{color:#1d4ed8}
+.kpi.red{border-color:#fecaca;background:#fef2f2}.kpi.red .k-num{color:#dc2626}
+.kpi.green{border-color:#bbf7d0;background:#f0fdf4}.kpi.green .k-num{color:#16a34a}
+.kpi.orange{border-color:#fed7aa;background:#fff7ed}.kpi.orange .k-num{color:#ea580c}
+.kpi.purple{border-color:#e9d5ff;background:#faf5ff}.kpi.purple .k-num{color:#7c3aed}
+.kpi.gray{border-color:#e2e8f0;background:#f8fafc}.kpi.gray .k-num{color:#64748b}
+
+/* ========== CALLOUT ========== */
+.callout{padding:16px 20px;border-radius:12px;margin:16px 0;font-size:.9em;line-height:1.6}
+.callout.danger{background:#fef2f2;border-left:5px solid #dc2626;color:#7f1d1d}
+.callout.success{background:#f0fdf4;border-left:5px solid #16a34a;color:#14532d}
+.callout.info{background:#eff6ff;border-left:5px solid #2563eb;color:#1e3a5f}
+.callout.warning{background:#fffbeb;border-left:5px solid #f59e0b;color:#78350f}
+.callout.insight{background:#faf5ff;border-left:5px solid #7c3aed;color:#3b0764}
+.callout.action{background:linear-gradient(135deg,#0d1b4a,#1b3a8a);color:#fff;border-left:5px solid #60a5fa}
+
+/* ========== LP STRUCTURE VISUAL ========== */
+.lp-structure{display:flex;flex-direction:column;gap:0;margin:20px auto;max-width:500px}
+.lp-block{padding:14px 20px;text-align:center;font-weight:700;font-size:.88em;position:relative;border:2px solid rgba(255,255,255,.3);margin-right:140px}
+.lp-pct{position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);font-size:.75em;color:#64748b;white-space:nowrap;font-weight:600}
+
+/* ========== VERSUS ========== */
+.vs-grid{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin:20px 0;align-items:start}
+@media(max-width:700px){.vs-grid{grid-template-columns:1fr}}
+.vs-col{padding:20px;border-radius:14px}
+.vs-col.current{background:#fef2f2;border:2px solid #fecaca}
+.vs-col.ideal{background:#f0fdf4;border:2px solid #bbf7d0}
+.vs-col h4{font-size:.95em;font-weight:800;margin-bottom:12px;text-align:center}
+.vs-center{display:flex;align-items:center;justify-content:center;font-size:2em;font-weight:900;color:#64748b}
+@media(max-width:700px){.vs-center{padding:10px;font-size:1.4em}}
+
+/* ========== PRIORITY ACTION ========== */
+.priority-card{border-radius:14px;padding:20px;margin:14px 0;position:relative;overflow:hidden}
+.priority-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px}
+.priority-card.p1{background:#fef2f2;border:1px solid #fecaca}.priority-card.p1::before{background:#dc2626}
+.priority-card.p2{background:#fff7ed;border:1px solid #fed7aa}.priority-card.p2::before{background:#f59e0b}
+.priority-card.p3{background:#eff6ff;border:1px solid #bfdbfe}.priority-card.p3::before{background:#2563eb}
+.priority-card.p4{background:#f0fdf4;border:1px solid #bbf7d0}.priority-card.p4::before{background:#16a34a}
+.priority-card.p5{background:#faf5ff;border:1px solid #e9d5ff}.priority-card.p5::before{background:#7c3aed}
+.priority-num{font-size:1.4em;font-weight:900;opacity:.12;position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+.priority-title{font-weight:800;font-size:1em;margin-bottom:6px;padding-left:14px;padding-right:50px}
+.priority-desc{font-size:.85em;color:#555;padding-left:14px;padding-right:50px;line-height:1.6}
+
+/* ========== FLOW ========== */
+.flow-row{display:flex;align-items:center;justify-content:center;gap:0;margin:20px 0;flex-wrap:wrap}
+.flow-box{text-align:center;padding:16px 14px;border-radius:14px;min-width:110px;flex:1;max-width:160px}
+.flow-icon{font-size:1.8em;margin-bottom:4px}
+.flow-title{font-weight:800;font-size:.82em;margin-bottom:2px}
+.flow-sub{font-size:.7em;color:#666}
+.flow-arrow{font-size:1.4em;color:#cbd5e1;margin:0 2px;flex-shrink:0}
+
+/* ========== COMPARISON TABLE ========== */
+table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+th{background:#0d1b4a;color:#fff;padding:10px 12px;font-size:.78em;text-align:center;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #eee;font-size:.82em;text-align:center}
+tr:last-child td{border:none}
+tr:nth-child(even){background:#f8fafc}
+td:first-child{text-align:left;font-weight:700;white-space:nowrap}
+.check{color:#16a34a;font-weight:900;font-size:1.1em}
+.cross{color:#dc2626;font-size:.9em}
+.partial{color:#f59e0b;font-weight:700}
+.highlight-row{background:#eff6ff!important}
+
+/* ========== WIREFRAME ========== */
+.wireframe{max-width:420px;margin:24px auto;border:3px solid #0d1b4a;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.12)}
+.wf-status-bar{background:#0d1b4a;color:#fff;text-align:center;font-size:.6em;padding:4px;letter-spacing:1px}
+.wf-section{padding:16px 18px;border-bottom:2px dashed #e2e8f0;position:relative}
+.wf-section:last-child{border-bottom:none}
+.wf-label{position:absolute;right:8px;top:6px;font-size:.6em;color:#94a3b8;font-weight:600;background:#f1f5f9;padding:2px 8px;border-radius:8px}
+.wf-headline{font-size:1.1em;font-weight:900;color:#0d1b4a;text-align:center;line-height:1.3}
+.wf-sub{font-size:.75em;color:#64748b;text-align:center;margin-top:4px}
+.wf-badge-row{display:flex;gap:6px;justify-content:center;margin:8px 0;flex-wrap:wrap}
+.wf-badge{background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:12px;font-size:.68em;font-weight:700}
+.wf-badge.green{background:#dcfce7;color:#15803d}
+.wf-badge.orange{background:#fed7aa;color:#c2410c}
+.wf-cta{display:block;margin:10px auto;padding:14px 24px;border:none;border-radius:12px;font-size:.95em;font-weight:900;color:#fff;text-align:center;cursor:pointer;width:90%;max-width:320px}
+.wf-cta.primary{background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 4px 16px rgba(234,88,12,.3)}
+.wf-cta.line{background:#06c755;box-shadow:0 4px 16px rgba(6,199,85,.3)}
+.wf-cta.secondary{background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 16px rgba(37,99,235,.3)}
+.wf-placeholder{background:#f1f5f9;border-radius:10px;padding:12px;margin:8px 0;text-align:center;font-size:.75em;color:#94a3b8;border:2px dashed #cbd5e1}
+.wf-checklist{list-style:none;margin:10px 0}
+.wf-checklist li{padding:6px 0;font-size:.8em;padding-left:22px;position:relative}
+.wf-checklist li::before{content:'';position:absolute;left:2px;top:12px;width:12px;height:12px;border-radius:50%;background:#16a34a}
+.wf-faq-item{background:#f8fafc;border-radius:10px;padding:10px 14px;margin:6px 0;font-size:.78em;border-left:4px solid #2563eb}
+.wf-faq-q{font-weight:800;color:#0d1b4a}
+.wf-faq-a{color:#64748b;margin-top:2px}
+.wf-step-row{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.wf-step{flex:1;text-align:center;padding:10px 6px;background:#eff6ff;border-radius:10px}
+.wf-step-num{font-size:1.2em;font-weight:900;color:#2563eb}
+.wf-step-text{font-size:.65em;color:#64748b;margin-top:2px}
+.wf-sticky{position:relative;background:linear-gradient(135deg,#0d1b4a,#1b3a8a);padding:12px 18px;display:flex;gap:8px;justify-content:center}
+.wf-sticky-btn{padding:10px 16px;border:none;border-radius:10px;font-size:.75em;font-weight:800;color:#fff;cursor:pointer;flex:1;max-width:150px;text-align:center}
+
+/* ========== METRIC IMPROVE ========== */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
+.metric-card{border-radius:14px;padding:20px;text-align:center;border:2px solid #e2e8f0;background:#fff}
+.metric-card .m-label{font-size:.82em;color:#64748b;font-weight:600;margin-bottom:8px}
+.metric-card .m-row{display:flex;align-items:center;justify-content:center;gap:12px}
+.metric-card .m-before{font-size:1.3em;font-weight:900;color:#dc2626;text-decoration:line-through;opacity:.6}
+.metric-card .m-arrow{font-size:1.2em;color:#16a34a}
+.metric-card .m-after{font-size:1.6em;font-weight:900;color:#16a34a}
+.metric-card .m-note{font-size:.7em;color:#94a3b8;margin-top:4px}
+
+/* ========== SCROLL COMPARE ========== */
+.scroll-compare{display:flex;gap:20px;margin:20px 0;flex-wrap:wrap;justify-content:center}
+.scroll-col{flex:1;min-width:200px;max-width:260px}
+.scroll-col h4{text-align:center;font-size:.88em;margin-bottom:10px;padding:6px 12px;border-radius:8px}
+.scroll-bar-v{width:50px;margin:0 auto;border-radius:8px;position:relative;overflow:visible}
+.scroll-label{position:absolute;font-size:.65em;font-weight:600;white-space:nowrap;transform:translateY(-50%)}
+
+/* ========== DESIGN SPEC ========== */
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:20px 0}
+.spec-card{border:2px solid #e2e8f0;border-radius:14px;overflow:hidden}
+.spec-card-head{padding:14px 18px;font-weight:800;font-size:.92em;color:#fff}
+.spec-card-body{padding:16px 18px}
+.spec-item{display:flex;gap:12px;align-items:flex-start;margin:10px 0;font-size:.85em}
+.spec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.color-swatch{display:inline-block;width:28px;height:28px;border-radius:8px;border:2px solid #e2e8f0;vertical-align:middle;margin-right:6px}
+
+/* ========== FOOTER ========== */
+.footer{text-align:center;padding:40px 20px;color:#94a3b8;font-size:.82em}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:768px){
+  .hero h1{font-size:1.5em}
+  .sec-body{padding:16px 18px 24px}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .vs-grid{grid-template-columns:1fr}
+  .spec-grid{grid-template-columns:1fr}
+  .wireframe{max-width:100%}
+  .lp-block{margin-right:0}
+  .lp-pct{left:auto;right:4px;top:auto;bottom:2px;transform:none;font-size:.6em;background:rgba(0,0,0,.45);color:#fff;padding:1px 6px;border-radius:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<div class="hero">
+  <div class="hero-sub">lp improvement proposal</div>
+  <h1>LP改善提案レポート</h1>
+  <div class="hero-purpose">ニコニコカーローン｜仮審査フォームCV最大化のための構成・デザイン図解資料</div>
+  <div class="hero-pills">
+    <span class="hero-pill">作成日: 2026/02/27</span>
+    <span class="hero-pill">データ: Clarity / GA4 / Google Ads（2/26最新）</span>
+    <span class="hero-pill">目標: CVR 5% → 8%+</span>
+    <span class="hero-pill">ゴール: 仮審査フォーム送信数UP</span>
+  </div>
+</div>
+
+<!-- ==================== 1. 現状データサマリー ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#dc2626">1</div>
+    <h2>現状データから見えたLPの課題</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">Clarity / GA4 / Google Ads の実データ（2/26最新）から、LPのどこに問題があるかを特定しました。</p>
+
+    <div class="kpi-row">
+      <div class="kpi red">
+        <div class="k-num">46.6%</div>
+        <div class="k-label">15%地点の離脱率</div>
+        <div class="k-sub">FV直後で約半数が離脱（悪化傾向）</div>
+      </div>
+      <div class="kpi orange">
+        <div class="k-num">43%</div>
+        <div class="k-label">平均スクロール深度</div>
+        <div class="k-sub">半分も見られていない</div>
+      </div>
+      <div class="kpi red">
+        <div class="k-num">7回</div>
+        <div class="k-label">CTAボタンタップ</div>
+        <div class="k-sub">172セッション中（フォーム5+LINE2）</div>
+      </div>
+      <div class="kpi orange">
+        <div class="k-num">5.33%</div>
+        <div class="k-label">フォーム到達率</div>
+        <div class="k-sub">169セッション → 9件到達</div>
+      </div>
+      <div class="kpi green">
+        <div class="k-num">4.85%</div>
+        <div class="k-label">CVR</div>
+        <div class="k-sub">CPA &yen;1,387（過去最良・CPC &yen;67）</div>
+      </div>
+      <div class="kpi green">
+        <div class="k-num">6件 / 7名</div>
+        <div class="k-label">お問い合わせ / LINE登録者増加</div>
+        <div class="k-sub">合計: お問い合わせ6件・LINE新規登録7名</div>
+      </div>
+    </div>
+
+    <div class="callout danger" style="margin-top:20px">
+      <strong>核心的問題:</strong> 広告は絶好調（CTR 26.65%, CPC &yen;67 過去最安）なのに、<strong>LPに到達した人の46.6%がFV直後で離脱</strong>し、<strong>CTAボタンは172セッション中わずか7回</strong>しかタップされていない。集客効率は改善し続けているが、LPでの取りこぼしが拡大している。
+    </div>
+
+    <!-- 現在のLP スクロール離脱マップ -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">現在のLP スクロール離脱マップ（2/26 Clarityデータ）</h3>
+    <div style="display:flex;gap:30px;flex-wrap:wrap;align-items:flex-start">
+      <div class="lp-structure" style="flex:1;min-width:280px;">
+        <div class="lp-block" style="background:#0d47a1;color:#fff;border-radius:14px 14px 0 0;">
+          FV: ロゴ + 実績バッジ
+          <span class="lp-pct" style="color:#16a34a">178人 (100%)</span>
+        </div>
+        <div class="lp-block" style="background:#1565c0;color:#fff">
+          10%: LINEバナー
+          <span class="lp-pct" style="color:#16a34a">161人 (90%)</span>
+        </div>
+        <div class="lp-block" style="background:#ef4444;color:#fff;border:3px solid #dc2626;">
+          15%: 車種画像群 ← 最大離脱ポイント
+          <span class="lp-pct" style="color:#dc2626;font-weight:900">95人 (53%) -47%!</span>
+        </div>
+        <div class="lp-block" style="background:#f97316;color:#fff">
+          25%: サービス説明
+          <span class="lp-pct">80人 (45%)</span>
+        </div>
+        <div class="lp-block" style="background:#eab308;color:#333">
+          25-55%: 中間コンテンツ（低注目）
+          <span class="lp-pct" style="color:#eab308">60人 (34%)</span>
+        </div>
+        <div class="lp-block" style="background:#7c3aed;color:#fff;border:3px solid #6b21a8;">
+          60-70%: FAQ ← 最高注目エリア
+          <span class="lp-pct" style="color:#7c3aed;font-weight:700">57人 (32%)</span>
+        </div>
+        <div class="lp-block" style="background:#64748b;color:#fff">
+          75%: CTA付近
+          <span class="lp-pct">54人 (30%)</span>
+        </div>
+        <div class="lp-block" style="background:#1e1b4b;color:#fff;border-radius:0 0 14px 14px;">
+          100%: フッター
+          <span class="lp-pct">34人 (19%)</span>
+        </div>
+      </div>
+      <div style="flex:1;min-width:250px;">
+        <div class="callout danger">
+          <strong>問題1: FV直後の大量離脱（15%地点）- 悪化傾向</strong><br>
+          46.6%のユーザーがファーストビューから2スクロール以内で離脱（2/25の38.9%からさらに悪化）。広告CTRは26.65%と過去最高だが、期待値とLPの内容にギャップがある。
+        </div>
+        <div class="callout warning">
+          <strong>問題2: 最重要コンテンツ（FAQ）がページ下部</strong><br>
+          FAQエリア（60-70%）に到達できるのは<strong>全体の32%のみ</strong>。68%のユーザーはこの情報にたどり着けずに離脱している。FAQのアコーディオンは合計タップ数TOP10のうち7件を占める最も操作されるコンテンツ。
+        </div>
+        <div class="callout info">
+          <strong>問題3: CTAボタンが見つけられない</strong><br>
+          画像タップ22回に対してCTAボタンは7回（フォーム5回+LINE2回）。Dead Click 3.49%。<strong>94%がスマホユーザー（ChromeMobile 74%+MobileSafari 20%）</strong>なのにタップ領域が不十分。
+        </div>
+        <div class="callout insight">
+          <strong>好材料: 広告効率が急速に改善中</strong><br>
+          CPC &yen;67（過去最安）、CTR 26.65%（過去最高）、CPA &yen;1,387（過去最良）。広告側は完全に軌道に乗っている。<strong>LP改善により同じ広告費でCV数を大幅に増やせるフェーズ。</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ユーザー行動の問題 -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">ユーザー行動の問題指標（Clarity 2/26）</h3>
+    <table>
+      <tr><th>問題行動</th><th>発生率</th><th>セッション数</th><th>前日比</th><th>対策</th></tr>
+      <tr class="highlight-row"><td>Quick Back</td><td style="color:#16a34a;font-weight:700">2.91%</td><td>5 / 172</td><td style="color:#16a34a">改善（7.46%→2.91%）</td><td>引き続きFV一致度を向上</td></tr>
+      <tr><td>Dead Click</td><td style="color:#16a34a;font-weight:700">3.49%</td><td>6 / 172</td><td style="color:#16a34a">改善（5.22%→3.49%）</td><td>タップ領域48px以上確保</td></tr>
+      <tr><td>フォーム到達</td><td style="color:#2563eb;font-weight:700">5.33%</td><td>9 / 169</td><td style="color:#f59e0b">微減（6.87%→5.33%）</td><td>CTA追加＋導線改善</td></tr>
+      <tr><td>CTAタップ</td><td style="color:#f59e0b;font-weight:700">4.07%</td><td>7 / 172</td><td style="color:#16a34a">改善（2.99%→4.07%）</td><td>CTA数・サイズ・色をさらに改善</td></tr>
+      <tr><td>15%地点離脱</td><td style="color:#dc2626;font-weight:700">46.6%</td><td>83 / 178</td><td style="color:#dc2626">悪化（38.9%→46.6%）</td><td>不安解消セクション追加が急務</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 1.5 累計ヒートマップ徹底分析 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:linear-gradient(135deg,#dc2626,#7f1d1d)">!</div>
+    <h2>なぜ問い合わせが来ないのか？ ─ ヒートマップが語る真実</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">Clarity 累計データ（2/21〜2/28 / <strong>959セッション・761タップ</strong>）。実際のスクロールヒートマップを見れば、問題は一目瞭然です。</p>
+
+    <!-- ===== メインビジュアル: ヒートマップ + 注釈 ===== -->
+    <div style="display:flex;gap:0;flex-wrap:wrap;align-items:stretch;margin:0 auto;max-width:900px">
+
+      <!-- ヒートマップ画像 -->
+      <div style="flex:0 0 320px;min-width:280px;position:relative;background:#111;border-radius:16px 0 0 16px;overflow:hidden;display:flex;align-items:stretch">
+        <img src="heatmap-scroll.png" alt="Clarity スクロールヒートマップ" style="width:100%;height:100%;object-fit:cover;object-position:top;opacity:.92">
+        <!-- オーバーレイラベル -->
+        <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.7);color:#fff;padding:4px 12px;border-radius:8px;font-size:.7em;font-weight:700">Clarity スクロールヒートマップ（実データ）</div>
+      </div>
+
+      <!-- 注釈カラム -->
+      <div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:0">
+
+        <!-- 注釈1: FV -->
+        <div style="flex:1;padding:18px 20px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-top:1px solid #bbf7d0;display:flex;align-items:center;gap:14px">
+          <div style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.4em">OK</div>
+          <div>
+            <div style="font-weight:900;color:#15803d;font-size:.95em">FV: 1,001人（100%）</div>
+            <div style="font-size:.78em;color:#555;margin-top:2px">広告からの流入は好調。赤色=多くのユーザーが閲覧中</div>
+          </div>
+        </div>
+
+        <!-- 注釈2: 15%の崖 -->
+        <div style="flex:1.2;padding:18px 20px;background:linear-gradient(135deg,#fef2f2,#fecaca);border-left:6px solid #dc2626;display:flex;align-items:center;gap:14px">
+          <div style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#dc2626;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8em;text-align:center;line-height:1.1">-43%</div>
+          <div>
+            <div style="font-weight:900;color:#dc2626;font-size:.95em">15%地点: 574人（-43%離脱）</div>
+            <div style="font-size:.78em;color:#555;margin-top:2px">赤→黄に急変する「崖」。車種画像で<br><strong>「自分には関係ない」</strong>と判断して離脱</div>
+          </div>
+        </div>
+
+        <!-- 注釈3: 中間（黄〜緑） -->
+        <div style="flex:1.5;padding:18px 20px;background:linear-gradient(180deg,#fffbeb,#fff7ed);border-left:6px solid #f59e0b;display:flex;align-items:center;gap:14px">
+          <div style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#f59e0b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1em;text-align:center;line-height:1.1">...</div>
+          <div>
+            <div style="font-weight:900;color:#92400e;font-size:.95em">20-55%: じわじわ離脱が続く</div>
+            <div style="font-size:.78em;color:#555;margin-top:2px">不安を解消する情報がないまま、<br>サービス説明・特徴が続き、興味が持続しない</div>
+          </div>
+        </div>
+
+        <!-- 注釈4: FAQ（緑なのに人気） -->
+        <div style="flex:1.3;padding:18px 20px;background:linear-gradient(135deg,#faf5ff,#e9d5ff);border-left:6px solid #7c3aed;display:flex;align-items:center;gap:14px">
+          <div style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.65em;text-align:center;line-height:1.2">485<br>tap</div>
+          <div>
+            <div style="font-weight:900;color:#5b21b6;font-size:.95em">60-70%: FAQ ← 最も操作される場所</div>
+            <div style="font-size:.78em;color:#555;margin-top:2px">全タップの<strong>63.7%</strong>がここに集中。<br>だが到達者は<strong>34%のみ</strong>。<span style="color:#dc2626;font-weight:700">66%が見れない</span></div>
+          </div>
+        </div>
+
+        <!-- 注釈5: CTA・フッター（緑=ほぼ誰もいない） -->
+        <div style="flex:1;padding:18px 20px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);border-left:6px solid #64748b;border-radius:0 0 16px 0;display:flex;align-items:center;gap:14px">
+          <div style="flex-shrink:0;width:52px;height:52px;border-radius:50%;background:#64748b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8em;text-align:center;line-height:1.1">13%</div>
+          <div>
+            <div style="font-weight:900;color:#334155;font-size:.95em">75-100%: CTA・フッター</div>
+            <div style="font-size:.78em;color:#555;margin-top:2px">ほぼ誰もここまで見ていない。<br>フォーム到達は<strong>7.85%</strong>、送信は<strong>わずか9件</strong></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:8px 0 24px;font-size:.72em;color:#94a3b8">Clarity スクロールヒートマップ 2/21-2/28（左: 実際のLP / 右: 各地点の分析）</div>
+
+    <!-- ===== 3つの致命的問題 ===== -->
+    <h3 style="font-size:1.05em;margin:28px 0 16px;color:#0d1b4a;text-align:center">ヒートマップが示す 3つの致命的問題</h3>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+      <!-- 問題1 -->
+      <div style="flex:1;min-width:260px;border-radius:16px;overflow:hidden;border:3px solid #dc2626">
+        <div style="background:#dc2626;color:#fff;padding:12px 16px;text-align:center">
+          <div style="font-size:.7em;opacity:.7;letter-spacing:2px">PROBLEM 1</div>
+          <div style="font-size:1.15em;font-weight:900">15%地点で43%が消える</div>
+        </div>
+        <div style="padding:16px;background:#fef2f2">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="font-size:2em;font-weight:900;color:#dc2626">922</div>
+            <div style="font-size:1.5em;color:#dc2626">→</div>
+            <div style="font-size:2em;font-weight:900;color:#dc2626">574</div>
+          </div>
+          <div style="font-size:.82em;color:#555;line-height:1.6">
+            ユーザーは<strong>「審査に通るか」</strong>を知りたいのに、車の写真が出てくる。<strong>「ここじゃない」</strong>と判断して離脱。
+          </div>
+        </div>
+      </div>
+
+      <!-- 問題2 -->
+      <div style="flex:1;min-width:260px;border-radius:16px;overflow:hidden;border:3px solid #7c3aed">
+        <div style="background:#7c3aed;color:#fff;padding:12px 16px;text-align:center">
+          <div style="font-size:.7em;opacity:.7;letter-spacing:2px">PROBLEM 2</div>
+          <div style="font-size:1.15em;font-weight:900">FAQ=最人気なのに下すぎる</div>
+        </div>
+        <div style="padding:16px;background:#faf5ff">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="text-align:center">
+              <div style="font-size:2em;font-weight:900;color:#7c3aed">63.7%</div>
+              <div style="font-size:.65em;color:#64748b">全タップ中</div>
+            </div>
+            <div style="font-size:.85em;color:#64748b">なのに</div>
+            <div style="text-align:center">
+              <div style="font-size:2em;font-weight:900;color:#dc2626">66%</div>
+              <div style="font-size:.65em;color:#64748b">が見れない</div>
+            </div>
+          </div>
+          <div style="font-size:.82em;color:#555;line-height:1.6">
+            FAQ（60-70%位置）は最も操作されるコンテンツ。しかし<strong>3分の2のユーザーは到達前に離脱</strong>している。
+          </div>
+        </div>
+      </div>
+
+      <!-- 問題3 -->
+      <div style="flex:1;min-width:260px;border-radius:16px;overflow:hidden;border:3px solid #0d1b4a">
+        <div style="background:#0d1b4a;color:#fff;padding:12px 16px;text-align:center">
+          <div style="font-size:.7em;opacity:.7;letter-spacing:2px">PROBLEM 3</div>
+          <div style="font-size:1.15em;font-weight:900">CTAが機能していない</div>
+        </div>
+        <div style="padding:16px;background:#eff6ff">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="text-align:center">
+              <div style="font-size:2em;font-weight:900;color:#0d1b4a">37</div>
+              <div style="font-size:.65em;color:#64748b">CTAタップ</div>
+            </div>
+            <div style="font-size:1.2em;color:#64748b">/</div>
+            <div style="text-align:center">
+              <div style="font-size:2em;font-weight:900;color:#64748b">761</div>
+              <div style="font-size:.65em;color:#64748b">全タップ</div>
+            </div>
+            <div style="text-align:center;margin-left:auto">
+              <div style="font-size:2em;font-weight:900;color:#dc2626">4.9%</div>
+            </div>
+          </div>
+          <div style="font-size:.82em;color:#555;line-height:1.6">
+            本文中にCTAがほぼゼロ。FAQで納得しても<strong>「次に何をすればいいか」がわからない</strong>。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 結果のファネル（コンパクト版） ===== -->
+    <div style="background:#f8fafc;border-radius:16px;padding:24px;border:2px solid #e2e8f0;margin-bottom:20px">
+      <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:1em;margin-bottom:16px">結果: 959セッションの行方</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
+        <div style="text-align:center;padding:10px 14px;background:#2563eb;color:#fff;border-radius:12px;font-weight:800">
+          <div style="font-size:1.4em">959</div>
+          <div style="font-size:.65em;opacity:.8">LP流入</div>
+        </div>
+        <div style="font-size:1.4em;color:#cbd5e1">→</div>
+        <div style="text-align:center;padding:10px 14px;background:#f59e0b;color:#fff;border-radius:12px;font-weight:800">
+          <div style="font-size:1.4em">574</div>
+          <div style="font-size:.65em;opacity:.8">15%通過</div>
+        </div>
+        <div style="font-size:1.4em;color:#cbd5e1">→</div>
+        <div style="text-align:center;padding:10px 14px;background:#ea580c;color:#fff;border-radius:12px;font-weight:800">
+          <div style="font-size:1.4em">338</div>
+          <div style="font-size:.65em;opacity:.8">FAQ到達</div>
+        </div>
+        <div style="font-size:1.4em;color:#cbd5e1">→</div>
+        <div style="text-align:center;padding:10px 14px;background:#dc2626;color:#fff;border-radius:12px;font-weight:800">
+          <div style="font-size:1.4em">73</div>
+          <div style="font-size:.65em;opacity:.8">フォーム到達</div>
+        </div>
+        <div style="font-size:1.4em;color:#cbd5e1">→</div>
+        <div style="text-align:center;padding:10px 14px;background:#7f1d1d;color:#fff;border-radius:12px;font-weight:800;border:3px solid #dc2626">
+          <div style="font-size:1.4em">9件</div>
+          <div style="font-size:.65em;opacity:.8">問い合わせ</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:12px;font-size:.82em;color:#64748b">フォーム到達者の送信率は<strong style="color:#16a34a">12.3%</strong>と悪くない。<strong style="color:#dc2626">「フォームにたどり着けない」</strong>ことが最大の問題。</div>
+    </div>
+
+    <!-- ===== 結論 ===== -->
+    <div class="callout action">
+      <strong>結論: 問い合わせを増やすために必要な3つの施策</strong>
+      <ol style="margin:10px 0 0;padding-left:20px;font-size:.92em;line-height:1.8">
+        <li><strong>FV直後に「不安解消」を配置</strong> → 15%地点の43%離脱を防ぐ</li>
+        <li><strong>FAQをページ前半に移動</strong> → 到達率34%→100%に改善</li>
+        <li><strong>FAQ直後・各セクション末にCTAを配置</strong> → 不安解消の瞬間に行動させる</li>
+      </ol>
+      <div style="margin-top:12px;font-size:.88em;opacity:.85">
+        この3施策で、問い合わせ数は<strong>9件→約30件（3倍以上）</strong>が見込めます。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 2. ターゲットユーザー像 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#7c3aed">2</div>
+    <h2>ターゲットユーザー像（データから逆算）</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">Google Ads のデモグラフィック・キーワード・時間帯データからユーザー像を特定し、LPのメッセージングに反映します。</p>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <!-- メインペルソナ -->
+      <div style="flex:1;min-width:300px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:14px;padding:24px;border:2px solid #bfdbfe">
+        <h4 style="font-size:1.1em;font-weight:900;color:#0d1b4a;margin-bottom:12px">メインターゲット（全体の45%）</h4>
+        <div style="font-size:.88em;line-height:1.8">
+          <strong style="color:#2563eb">40-54歳 / 男性</strong><br>
+          過去にローン審査に落ちた経験があり、「自社ローン」「金利0」で検索。車が必要だが通常のオートローンが組めない状況。<br><br>
+          <strong>検索キーワード:</strong><br>
+          「自社ローン 金利 0」（141クリック / CTR 28.7%）<br>
+          「車 ローン」（53クリック / CTR 32.1%）<br><br>
+          <strong>行動パターン:</strong><br>
+          夕方17時〜20時にスマホで検索（19時がピーク: 87表示）。FAQを重点的に読み、「自分でもローンが組めるか」を確認してからフォームへ進む。
+        </div>
+      </div>
+      <!-- サブペルソナ -->
+      <div style="flex:1;min-width:300px;background:linear-gradient(135deg,#faf5ff,#e9d5ff);border-radius:14px;padding:24px;border:2px solid #e9d5ff">
+        <h4 style="font-size:1.1em;font-weight:900;color:#3b0764;margin-bottom:12px">サブターゲット（全体の25%）</h4>
+        <div style="font-size:.88em;line-height:1.8">
+          <strong style="color:#7c3aed">18-34歳 / 男女</strong><br>
+          社会人歴が浅くクレジットヒストリーが薄い。自己破産・任意整理後の再スタート組も含む。<br><br>
+          <strong>検索キーワード:</strong><br>
+          「自己破産後 車 ローン」（5クリック / CTR 38.5%）<br>
+          「オートローン 審査落ち」（3クリック / CTR 37.5%）<br><br>
+          <strong>行動パターン:</strong><br>
+          深夜1時〜2時にスマホで検索。不安要素が多いため、FAQ・お客様の声を重点的に確認。LINE相談のハードルが低い。
+        </div>
+      </div>
+    </div>
+
+    <div class="callout action" style="margin-top:20px">
+      <strong>LP設計への反映:</strong> FVのヘッドラインは「審査落ちOK」「金利0%」を明示し、広告キーワードとの一致度を最大化する。FAQ（不安解消コンテンツ）をページ上部に配置し、到達前離脱を防ぐ。93%がモバイルのため、スマホファーストで設計する。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 3. 改善後LP構成（ワイヤーフレーム） ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#2563eb">3</div>
+    <h2>改善後LP構成 ワイヤーフレーム</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:8px">データに基づいて最適化した新しいLP構成です。<strong>最大のポイントは「FAQ・不安解消を前半に移動」「CTA を4箇所に配置」「スマホ固定フッターバー」</strong>の3点。</p>
+
+    <div style="display:flex;gap:30px;flex-wrap:wrap;align-items:flex-start;margin-top:20px">
+      <!-- ワイヤーフレーム -->
+      <div style="flex:1;min-width:320px;max-width:450px">
+        <div class="wireframe">
+          <div class="wf-status-bar">MOBILE VIEW - 375 x 812</div>
+
+          <!-- FV -->
+          <div class="wf-section" style="background:linear-gradient(135deg,#0d1b4a,#1b3a8a);color:#fff;padding:20px 18px">
+            <span class="wf-label" style="background:rgba(255,255,255,.2);color:#fff">FIRST VIEW</span>
+            <div class="wf-headline" style="color:#fff;font-size:1.2em">
+              審査落ちでも大丈夫。<br>金利0%の自社ローン
+            </div>
+            <div class="wf-sub" style="color:rgba(255,255,255,.7)">ニコニコカーローン ｜ 審査通過実績 35,000人以上</div>
+            <div class="wf-badge-row">
+              <span class="wf-badge" style="background:rgba(255,255,255,.2);color:#fff">金利0%</span>
+              <span class="wf-badge" style="background:rgba(255,255,255,.2);color:#fff">頭金不要</span>
+              <span class="wf-badge" style="background:rgba(255,255,255,.2);color:#fff">最短3分審査</span>
+            </div>
+            <div class="wf-cta primary">無料で仮審査してみる（最短3分）</div>
+            <div class="wf-cta line" style="margin-top:6px;font-size:.82em">LINEで気軽に相談する</div>
+          </div>
+
+          <!-- 不安解消チェックリスト -->
+          <div class="wf-section">
+            <span class="wf-label">不安解消</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:.95em;margin-bottom:8px">こんなお悩みありませんか?</div>
+            <ul class="wf-checklist">
+              <li>他社のローン審査に落ちてしまった</li>
+              <li>自己破産・任意整理の経験がある</li>
+              <li>収入が不安定・勤続年数が短い</li>
+              <li>頭金を用意できない</li>
+            </ul>
+            <div style="text-align:center;font-weight:900;color:#16a34a;font-size:1em;margin-top:10px;padding:10px;background:#f0fdf4;border-radius:10px">
+              全て対応可能です
+            </div>
+          </div>
+
+          <!-- FAQ（前倒し配置） -->
+          <div class="wf-section" style="background:#f8fafc">
+            <span class="wf-label">FAQ前倒し</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:.92em;margin-bottom:10px">よくある質問</div>
+            <div class="wf-faq-item">
+              <div class="wf-faq-q">Q. ブラックリストでもローンは組める?</div>
+              <div class="wf-faq-a">A. はい、独自審査のため信用情報に関係なく対応可能です</div>
+            </div>
+            <div class="wf-faq-item">
+              <div class="wf-faq-q">Q. 金利0%って本当?</div>
+              <div class="wf-faq-a">A. はい、車両本体価格のみでお支払いいただけます</div>
+            </div>
+            <div class="wf-faq-item">
+              <div class="wf-faq-q">Q. 仮審査で費用はかかる?</div>
+              <div class="wf-faq-a">A. 完全無料です。入力は最短3分で完了します</div>
+            </div>
+            <div class="wf-cta secondary" style="margin-top:12px;font-size:.88em">不安が解消されたら仮審査へ</div>
+          </div>
+
+          <!-- 選ばれる理由 -->
+          <div class="wf-section">
+            <span class="wf-label">選ばれる理由</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:.92em;margin-bottom:10px">ニコニコカーローンが選ばれる3つの理由</div>
+            <div class="wf-placeholder">理由1: 独自審査で通過率が高い</div>
+            <div class="wf-placeholder">理由2: 金利0% / 頭金0円</div>
+            <div class="wf-placeholder">理由3: 豊富な車種ラインナップ</div>
+          </div>
+
+          <!-- お客様の声 -->
+          <div class="wf-section" style="background:#f8fafc">
+            <span class="wf-label">社会的証明</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:.92em;margin-bottom:10px">お客様の声</div>
+            <div class="wf-placeholder">40代男性: 「他社で3回断られたが、ここで審査が通った」</div>
+            <div class="wf-placeholder">20代女性: 「任意整理後でも車が持てた」</div>
+            <div class="wf-cta primary" style="font-size:.85em">私も仮審査してみる</div>
+          </div>
+
+          <!-- 申し込みの流れ -->
+          <div class="wf-section">
+            <span class="wf-label">簡単さ訴求</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:.92em;margin-bottom:10px">かんたん3ステップ</div>
+            <div class="wf-step-row">
+              <div class="wf-step">
+                <div class="wf-step-num">1</div>
+                <div class="wf-step-text">仮審査<br>申し込み</div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-step-num">2</div>
+                <div class="wf-step-text">担当者から<br>ご連絡</div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-step-num">3</div>
+                <div class="wf-step-text">車選び &<br>納車</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 最終CTA -->
+          <div class="wf-section" style="background:linear-gradient(135deg,#fef2f2,#fff7ed);padding:20px 18px">
+            <span class="wf-label">最終CTA</span>
+            <div style="text-align:center;font-weight:900;color:#0d1b4a;font-size:1em;margin-bottom:6px">まずは無料で仮審査</div>
+            <div style="text-align:center;font-size:.75em;color:#64748b;margin-bottom:10px">入力は最短3分 ・ 完全無料 ・ 信用情報に影響なし</div>
+            <div class="wf-cta primary">仮審査フォームへ進む</div>
+            <div class="wf-cta line" style="margin-top:6px;font-size:.82em">LINEで相談する</div>
+          </div>
+
+          <!-- スマホ固定フッターバー -->
+          <div class="wf-sticky">
+            <div class="wf-sticky-btn" style="background:#ea580c">仮審査する</div>
+            <div class="wf-sticky-btn" style="background:#06c755">LINE相談</div>
+            <div class="wf-sticky-btn" style="background:#2563eb">電話する</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:12px;font-size:.78em;color:#94a3b8">改善案ワイヤーフレーム（モバイルビュー）</div>
+      </div>
+
+      <!-- 構成の解説 -->
+      <div style="flex:1;min-width:280px">
+        <h3 style="font-size:1.05em;color:#0d1b4a;margin-bottom:16px">構成変更の根拠</h3>
+
+        <div class="priority-card p1">
+          <div class="priority-num">01</div>
+          <div class="priority-title" style="color:#dc2626">FV: キャッチコピーを広告キーワードに合わせる</div>
+          <div class="priority-desc">
+            検索KW上位は「自社ローン 金利 0」(141クリック, CTR 28.7%)と「審査落ち」系。FVヘッドラインに<strong>「審査落ちでも大丈夫。金利0%」</strong>を入れることで、広告→LP間のメッセージ一致度を上げ、Quick Back率(2.91%)をさらに低減。
+          </div>
+        </div>
+
+        <div class="priority-card p1">
+          <div class="priority-num">02</div>
+          <div class="priority-title" style="color:#dc2626">FV直後: 不安解消チェックリスト</div>
+          <div class="priority-desc">
+            15%地点で46.6%が離脱する最大の原因は「自分に関係ある情報がない」と感じること。<strong>FV直後に「こんなお悩み → 全部OK」</strong>を配置し、離脱前にユーザーの不安を解消。競合カーリバが最も効果を上げている手法。
+          </div>
+        </div>
+
+        <div class="priority-card p2">
+          <div class="priority-num">03</div>
+          <div class="priority-title" style="color:#ea580c">FAQ を 65%→15-25% に前倒し配置</div>
+          <div class="priority-desc">
+            現在FAQはページ60-70%地点にあり、到達できるのは32%のユーザーのみ。しかしFAQアコーディオンはタップ数TOP10のうち7件を占める最も操作されるコンテンツ。<strong>ページ前半に移動することで、68%の見れていないユーザーにも見せる。</strong>
+          </div>
+        </div>
+
+        <div class="priority-card p2">
+          <div class="priority-num">04</div>
+          <div class="priority-title" style="color:#ea580c">CTA を1箇所 → 4箇所に増設</div>
+          <div class="priority-desc">
+            現在CTAタップはわずか7回/172セッション（4.07%）。CTAをFV内・FAQ後・お客様の声後・最終セクションの4箇所に配置。各セクションで「行動する理由」を提示した直後にCTAを置くことで、タップ機会を最大化。
+          </div>
+        </div>
+
+        <div class="priority-card p3">
+          <div class="priority-num">05</div>
+          <div class="priority-title" style="color:#2563eb">スマホ固定フッターバー</div>
+          <div class="priority-desc">
+            93%がモバイルユーザー。常時表示の固定バーに「仮審査」「LINE」「電話」の3ボタンを配置し、スクロール位置に関係なくいつでもアクションできるようにする。
+          </div>
+        </div>
+
+        <div class="priority-card p4">
+          <div class="priority-num">06</div>
+          <div class="priority-title" style="color:#16a34a">お客様の声でリアリティを付加</div>
+          <div class="priority-desc">
+            メインターゲット（45-54歳男性）に合わせた事例を配置。「40代男性・他社3回落ちから逆転」のような具体的ストーリーが、同じ境遇のユーザーの背中を押す。
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 4. 現在 vs 改善案 比較 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#16a34a">4</div>
+    <h2>現在のLP vs 改善案 Before / After</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:20px">LP構成の配置順序を比較。右の改善案では、ユーザーが実際に時間を使うコンテンツ（FAQ・不安解消）を前半に移動し、CTAを各セクションに分散配置しています。</p>
+
+    <div class="vs-grid">
+      <!-- 現在のLP -->
+      <div class="vs-col current">
+        <h4 style="color:#dc2626">現在のLP構成</h4>
+        <div style="font-size:.82em;line-height:2">
+          <div style="padding:6px 10px;background:#fecaca;border-radius:8px;margin:4px 0">1. FV: ロゴ + 実績バッジ</div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0">2. LINEバナー画像</div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0;border:2px solid #dc2626">3. 車種画像一覧 <span style="color:#dc2626;font-size:.75em">← 47%離脱</span></div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0">4. サービス説明</div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0;opacity:.5">5. 中間コンテンツ <span style="font-size:.75em">← 低注目</span></div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0;opacity:.5">6. 特徴・メリット <span style="font-size:.75em">← 低注目</span></div>
+          <div style="padding:6px 10px;background:#e9d5ff;border-radius:8px;margin:4px 0;border:2px solid #7c3aed">7. FAQ <span style="color:#7c3aed;font-size:.75em">← 最高注目だが32%しか到達せず</span></div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0">8. CTA</div>
+          <div style="padding:6px 10px;background:#fef2f2;border-radius:8px;margin:4px 0">9. フッター</div>
+        </div>
+        <div style="margin-top:12px;font-size:.78em;color:#dc2626;text-align:center;font-weight:700">CTA: 下部に1箇所のみ / FAQ到達率: 32%</div>
+      </div>
+
+      <div class="vs-center">→</div>
+
+      <!-- 改善案 -->
+      <div class="vs-col ideal">
+        <h4 style="color:#16a34a">改善案LP構成</h4>
+        <div style="font-size:.82em;line-height:2">
+          <div style="padding:6px 10px;background:#bbf7d0;border-radius:8px;margin:4px 0;font-weight:700">1. FV: キャッチ + バッジ + <span style="color:#ea580c">CTA①</span></div>
+          <div style="padding:6px 10px;background:#dcfce7;border-radius:8px;margin:4px 0;border:2px solid #16a34a">2. 不安解消チェックリスト <span style="color:#16a34a;font-size:.75em">← NEW: 離脱防止</span></div>
+          <div style="padding:6px 10px;background:#dcfce7;border-radius:8px;margin:4px 0;border:2px solid #7c3aed">3. FAQ（前倒し配置）+ <span style="color:#ea580c">CTA②</span> <span style="color:#7c3aed;font-size:.75em">← 全員が見れる</span></div>
+          <div style="padding:6px 10px;background:#f0fdf4;border-radius:8px;margin:4px 0">4. 選ばれる理由3つ</div>
+          <div style="padding:6px 10px;background:#f0fdf4;border-radius:8px;margin:4px 0">5. お客様の声 + <span style="color:#ea580c">CTA③</span></div>
+          <div style="padding:6px 10px;background:#f0fdf4;border-radius:8px;margin:4px 0">6. 申し込みの流れ（3ステップ）</div>
+          <div style="padding:6px 10px;background:#bbf7d0;border-radius:8px;margin:4px 0;font-weight:700">7. 最終CTA + <span style="color:#ea580c">CTA④</span></div>
+          <div style="padding:6px 10px;background:#059669;color:#fff;border-radius:8px;margin:4px 0;font-weight:700">常時: スマホ固定フッターバー</div>
+        </div>
+        <div style="margin-top:12px;font-size:.78em;color:#16a34a;text-align:center;font-weight:700">CTA: 4箇所 + 固定バー / FAQ到達率: 100%（前半配置）</div>
+      </div>
+    </div>
+
+    <!-- 構成比較テーブル -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">セクション配置比較</h3>
+    <table>
+      <tr>
+        <th>セクション</th>
+        <th>現在の位置</th>
+        <th>改善案の位置</th>
+        <th>変更理由</th>
+      </tr>
+      <tr class="highlight-row">
+        <td>不安解消チェック</td>
+        <td class="cross">なし</td>
+        <td class="check">FV直後（10%）</td>
+        <td>15%地点の47%離脱を防止</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>FAQ</td>
+        <td>65-70%（下部）</td>
+        <td class="check">15-25%（上部）</td>
+        <td>到達率32%→100%に改善</td>
+      </tr>
+      <tr>
+        <td>CTA数</td>
+        <td>1箇所</td>
+        <td class="check">4箇所 + 固定バー</td>
+        <td>タップ機会を5倍に増加</td>
+      </tr>
+      <tr>
+        <td>お客様の声</td>
+        <td class="cross">なし</td>
+        <td class="check">50-60%</td>
+        <td>社会的証明でCV後押し</td>
+      </tr>
+      <tr>
+        <td>車種画像一覧</td>
+        <td>15%（FV直後）</td>
+        <td>削除 or 縮小</td>
+        <td>離脱の原因。選ばれる理由内で紹介</td>
+      </tr>
+      <tr>
+        <td>固定フッターバー</td>
+        <td class="cross">なし</td>
+        <td class="check">常時表示</td>
+        <td>93%モバイルユーザーへの対応</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 5. デザイン仕様 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#ea580c">5</div>
+    <h2>デザイン仕様・ガイドライン</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">ターゲット（40-54歳男性中心）に合わせたデザイン方針。信頼感と安心感を重視し、モバイルファーストで設計します。</p>
+
+    <div class="spec-grid">
+      <!-- カラーパレット -->
+      <div class="spec-card">
+        <div class="spec-card-head" style="background:linear-gradient(135deg,#0d1b4a,#2563eb)">カラーパレット</div>
+        <div class="spec-card-body">
+          <div class="spec-item">
+            <div><span class="color-swatch" style="background:#0d1b4a"></span></div>
+            <div><strong>#0d1b4a</strong> - メインカラー（信頼・安心）<br><span style="font-size:.75em;color:#94a3b8">ヘッダー、見出し、背景</span></div>
+          </div>
+          <div class="spec-item">
+            <div><span class="color-swatch" style="background:#ea580c"></span></div>
+            <div><strong>#ea580c</strong> - CTAカラー（行動喚起）<br><span style="font-size:.75em;color:#94a3b8">仮審査ボタン、重要リンク</span></div>
+          </div>
+          <div class="spec-item">
+            <div><span class="color-swatch" style="background:#06c755"></span></div>
+            <div><strong>#06c755</strong> - LINEグリーン<br><span style="font-size:.75em;color:#94a3b8">LINE相談ボタン専用</span></div>
+          </div>
+          <div class="spec-item">
+            <div><span class="color-swatch" style="background:#16a34a"></span></div>
+            <div><strong>#16a34a</strong> - ポジティブ（安心）<br><span style="font-size:.75em;color:#94a3b8">「対応OK」「無料」表示</span></div>
+          </div>
+          <div class="spec-item">
+            <div><span class="color-swatch" style="background:#f8fafc"></span></div>
+            <div><strong>#f8fafc</strong> - 背景グレー<br><span style="font-size:.75em;color:#94a3b8">セクション背景の交互色</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- タイポグラフィ -->
+      <div class="spec-card">
+        <div class="spec-card-head" style="background:linear-gradient(135deg,#1b3a8a,#7c3aed)">タイポグラフィ & レイアウト</div>
+        <div class="spec-card-body">
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#0d1b4a"></div>
+            <div><strong>フォント:</strong> Hiragino Kaku Gothic / Meiryo<br><span style="font-size:.75em;color:#94a3b8">40代以上が読みやすい標準フォント</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#2563eb"></div>
+            <div><strong>本文サイズ:</strong> 16px（最小14px）<br><span style="font-size:.75em;color:#94a3b8">40代以上のターゲットに配慮</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>見出し:</strong> 24-28px / font-weight: 900<br><span style="font-size:.75em;color:#94a3b8">スクロール中でも目に止まるサイズ</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#16a34a"></div>
+            <div><strong>行間:</strong> 1.7-1.8<br><span style="font-size:.75em;color:#94a3b8">スマホでの可読性確保</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#7c3aed"></div>
+            <div><strong>max-width:</strong> 640px（モバイルLP）<br><span style="font-size:.75em;color:#94a3b8">93%がスマホのため横幅制限</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTAボタン仕様 -->
+      <div class="spec-card">
+        <div class="spec-card-head" style="background:linear-gradient(135deg,#ea580c,#f97316)">CTAボタン仕様（最重要）</div>
+        <div class="spec-card-body">
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>高さ:</strong> 60px以上（現状は推定40px以下）<br><span style="font-size:.75em;color:#94a3b8">指でタップしやすい最低サイズ</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>幅:</strong> 画面幅の90%（max-width: 360px）<br><span style="font-size:.75em;color:#94a3b8">スマホで最大限大きく</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>色:</strong> オレンジグラデーション (#ea580c→#f97316)<br><span style="font-size:.75em;color:#94a3b8">青系ページ内で最も目立つ暖色</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>テキスト:</strong>「無料で仮審査してみる（最短3分）」<br><span style="font-size:.75em;color:#94a3b8">「無料」「最短3分」でハードルを下げる</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>影:</strong> box-shadow: 0 4px 16px rgba(234,88,12,.3)<br><span style="font-size:.75em;color:#94a3b8">浮いて見える立体感で視認性UP</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>周囲余白:</strong> 上下24px以上<br><span style="font-size:.75em;color:#94a3b8">周囲のコンテンツと分離して視認性確保</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 固定フッターバー -->
+      <div class="spec-card">
+        <div class="spec-card-head" style="background:linear-gradient(135deg,#0d1b4a,#1b3a8a)">スマホ固定フッターバー</div>
+        <div class="spec-card-body">
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#0d1b4a"></div>
+            <div><strong>位置:</strong> fixed bottom（常時表示）<br><span style="font-size:.75em;color:#94a3b8">スクロール位置に関係なくタップ可能</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#ea580c"></div>
+            <div><strong>ボタン構成:</strong> 仮審査 | LINE相談 | 電話<br><span style="font-size:.75em;color:#94a3b8">3つのアクション経路を常時提供</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#2563eb"></div>
+            <div><strong>高さ:</strong> 56-64px（Safe Area対応）<br><span style="font-size:.75em;color:#94a3b8">iPhoneのホームバーと重ならない</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#7c3aed"></div>
+            <div><strong>z-index:</strong> 9999<br><span style="font-size:.75em;color:#94a3b8">他要素に隠れないよう最前面配置</span></div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-dot" style="background:#16a34a"></div>
+            <div><strong>表示条件:</strong> FV通過後に表示（CSS: scroll-behavior）<br><span style="font-size:.75em;color:#94a3b8">FV閲覧中は非表示でコンテンツ領域確保</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- トーン＆マナー -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">トーン & マナー</h3>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:250px;background:#eff6ff;border-radius:14px;padding:20px;border:2px solid #bfdbfe">
+        <h4 style="color:#1d4ed8;font-size:.92em;margin-bottom:10px">やるべきこと</h4>
+        <ul style="list-style:none;font-size:.85em;line-height:2">
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a;font-weight:900">+</span> 落ち着いた色調（紺+白基調）で信頼感</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a;font-weight:900">+</span> 具体的な数字を使う（「35,000人」「金利0%」）</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a;font-weight:900">+</span> 「無料」「簡単」「安心」を繰り返す</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a;font-weight:900">+</span> 不安を先回りして解消（FAQ、チェックリスト）</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#16a34a;font-weight:900">+</span> 文字は大きめ（16px以上）で読みやすく</li>
+        </ul>
+      </div>
+      <div style="flex:1;min-width:250px;background:#fef2f2;border-radius:14px;padding:20px;border:2px solid #fecaca">
+        <h4 style="color:#dc2626;font-size:.92em;margin-bottom:10px">避けるべきこと</h4>
+        <ul style="list-style:none;font-size:.85em;line-height:2">
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#dc2626;font-weight:900">-</span> 派手すぎる配色（信頼感が損なわれる）</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#dc2626;font-weight:900">-</span> FV直後に車種画像を大量配置（離脱の原因）</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#dc2626;font-weight:900">-</span> 小さいCTAボタン（48px以下はNG）</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#dc2626;font-weight:900">-</span> スクロールしないと何もアクションできない構成</li>
+          <li style="padding-left:18px;position:relative"><span style="position:absolute;left:0;color:#dc2626;font-weight:900">-</span> 曖昧な表現（「お気軽に」→「無料で3分で」に）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 6. CTA コピー案 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#f59e0b">6</div>
+    <h2>CTA コピーライティング案</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">各配置箇所に適したCTAコピーを、ユーザーの心理段階に合わせて設計します。</p>
+
+    <table>
+      <tr>
+        <th>配置位置</th>
+        <th>ユーザー心理</th>
+        <th>CTAコピー案</th>
+        <th>補足テキスト</th>
+      </tr>
+      <tr class="highlight-row">
+        <td>FV内（CTA①）</td>
+        <td>「自分でもいけるかも」</td>
+        <td style="color:#ea580c;font-weight:700">無料で仮審査してみる</td>
+        <td>最短3分 / 信用情報に影響なし</td>
+      </tr>
+      <tr>
+        <td>FAQ後（CTA②）</td>
+        <td>「不安が解消された」</td>
+        <td style="color:#2563eb;font-weight:700">不安が解消されたら仮審査へ</td>
+        <td>入力はたった3分で完了します</td>
+      </tr>
+      <tr>
+        <td>お客様の声後（CTA③）</td>
+        <td>「他の人もやってるなら」</td>
+        <td style="color:#ea580c;font-weight:700">私も仮審査してみる</td>
+        <td>35,000人以上の審査実績</td>
+      </tr>
+      <tr>
+        <td>最終セクション（CTA④）</td>
+        <td>「ここまで読んだし」</td>
+        <td style="color:#ea580c;font-weight:700">仮審査フォームへ進む</td>
+        <td>完全無料 / 信用情報に影響なし</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td>LINEボタン（全箇所）</td>
+        <td>「まだ不安がある」</td>
+        <td style="color:#06c755;font-weight:700">LINEで気軽に相談する</td>
+        <td>24時間受付 / 無料相談</td>
+      </tr>
+      <tr style="background:#eff6ff">
+        <td>固定フッター</td>
+        <td>「今すぐアクションしたい」</td>
+        <td style="font-weight:700">仮審査 | LINE | 電話</td>
+        <td>常時表示・1タップで遷移</td>
+      </tr>
+    </table>
+
+    <div class="callout insight" style="margin-top:16px">
+      <strong>ポイント:</strong> CTAのテキストは「する」ではなく<strong>「してみる」</strong>にすることでハードルを下げる。「無料」「最短3分」「信用情報に影響なし」の3つの安心ワードを必ず添える。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 7. ヘッドラインA/Bテスト案 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#7c3aed">7</div>
+    <h2>ファーストビュー ヘッドライン案（A/Bテスト推奨）</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">検索キーワードデータから、ユーザーが最も反応するワードを含むヘッドライン候補を3案提示します。</p>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <!-- A案 -->
+      <div style="flex:1;min-width:280px;border:3px solid #2563eb;border-radius:14px;overflow:hidden">
+        <div style="background:#2563eb;color:#fff;padding:10px 16px;font-weight:800;font-size:.88em">A案: 審査落ち訴求（推奨）</div>
+        <div style="padding:20px;text-align:center">
+          <div style="font-size:1.3em;font-weight:900;color:#0d1b4a;line-height:1.4">審査落ちでも大丈夫。<br>金利0%の自社ローン</div>
+          <div style="font-size:.78em;color:#64748b;margin-top:8px">対応KW: 「自社ローン 金利 0」141クリック CTR 28.7% / 「審査落ち」系</div>
+          <div style="margin-top:12px;font-size:.82em;color:#2563eb;font-weight:700">Quick Back率の低減を狙う</div>
+        </div>
+      </div>
+      <!-- B案 -->
+      <div style="flex:1;min-width:280px;border:3px solid #16a34a;border-radius:14px;overflow:hidden">
+        <div style="background:#16a34a;color:#fff;padding:10px 16px;font-weight:800;font-size:.88em">B案: 実績数字訴求</div>
+        <div style="padding:20px;text-align:center">
+          <div style="font-size:1.3em;font-weight:900;color:#0d1b4a;line-height:1.4">35,000人が選んだ<br>金利0%カーローン</div>
+          <div style="font-size:.78em;color:#64748b;margin-top:8px">対応KW: 「車 ローン」53クリック CTR 32.1% / 広い層にアピール</div>
+          <div style="margin-top:12px;font-size:.82em;color:#16a34a;font-weight:700">社会的証明で信頼感を訴求</div>
+        </div>
+      </div>
+      <!-- C案 -->
+      <div style="flex:1;min-width:280px;border:3px solid #ea580c;border-radius:14px;overflow:hidden">
+        <div style="background:#ea580c;color:#fff;padding:10px 16px;font-weight:800;font-size:.88em">C案: 簡単さ訴求</div>
+        <div style="padding:20px;text-align:center">
+          <div style="font-size:1.3em;font-weight:900;color:#0d1b4a;line-height:1.4">たった3分の仮審査で<br>あなたの車が見つかる</div>
+          <div style="font-size:.78em;color:#64748b;margin-top:8px">対応KW: 「自己破産後 車 ローン」/ 行動ハードルの低さを強調</div>
+          <div style="margin-top:12px;font-size:.82em;color:#ea580c;font-weight:700">FV→即アクションを促す</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout action" style="margin-top:20px">
+      <strong>推奨:</strong> まずA案で運用開始。Google Adsの検索KW1位「自社ローン 金利 0」とKW2位「審査落ち」系の両方に対応するコピー。2週間後にB案とA/Bテストを実施し、CVR比較で最適案を決定する。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 8. 期待される効果 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#16a34a">8</div>
+    <h2>改善後の期待効果</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">各改善施策の効果を、現在のデータをベースに予測します。</p>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="m-label">15%地点 離脱率</div>
+        <div class="m-row">
+          <span class="m-before">46.6%</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">25%以下</span>
+        </div>
+        <div class="m-note">不安解消セクション追加による離脱防止</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">FAQ 到達率</div>
+        <div class="m-row">
+          <span class="m-before">32%</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">100%</span>
+        </div>
+        <div class="m-note">ページ前半に移動で全員が閲覧可能に</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">CTAタップ数 / 日</div>
+        <div class="m-row">
+          <span class="m-before">7回</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">20回+</span>
+        </div>
+        <div class="m-note">4箇所配置 + 固定バーでタップ機会増</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">フォーム到達率</div>
+        <div class="m-row">
+          <span class="m-before">5.33%</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">12%+</span>
+        </div>
+        <div class="m-note">CTA増設 + 固定バーによる導線改善</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">CVR</div>
+        <div class="m-row">
+          <span class="m-before">4.85%</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">7-8%</span>
+        </div>
+        <div class="m-note">フォーム到達率改善 × 既存の高CV意欲</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">Quick Back率</div>
+        <div class="m-row">
+          <span class="m-before">2.91%</span>
+          <span class="m-arrow">→</span>
+          <span class="m-after">2%以下</span>
+        </div>
+        <div class="m-note">FVヘッドラインと広告KWの一致度をさらに改善</div>
+      </div>
+    </div>
+
+    <!-- 投資対効果 -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">投資対効果シミュレーション</h3>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:250px;background:#fef2f2;border-radius:14px;padding:20px;border:2px solid #fecaca;text-align:center">
+        <div style="font-size:.82em;color:#64748b;margin-bottom:8px">現在（2/26基準 / 日次）</div>
+        <div style="font-size:1em;color:#0d1b4a;font-weight:700;margin-bottom:4px">206クリック × CVR 4.85%</div>
+        <div style="font-size:2em;font-weight:900;color:#dc2626">= 10件 / 日</div>
+        <div style="font-size:.82em;color:#64748b;margin-top:4px">CPA &yen;1,387</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:2em;font-weight:900;color:#16a34a;padding:0 8px">→</div>
+      <div style="flex:1;min-width:250px;background:#f0fdf4;border-radius:14px;padding:20px;border:2px solid #bbf7d0;text-align:center">
+        <div style="font-size:.82em;color:#64748b;margin-bottom:8px">改善後（同じ広告費で）</div>
+        <div style="font-size:1em;color:#0d1b4a;font-weight:700;margin-bottom:4px">206クリック × CVR 7.5%</div>
+        <div style="font-size:2em;font-weight:900;color:#16a34a">= 15件 / 日</div>
+        <div style="font-size:.82em;color:#64748b;margin-top:4px">CPA &yen;925（-33%削減）</div>
+      </div>
+    </div>
+    <div class="callout success" style="margin-top:16px">
+      <strong>月間インパクト:</strong> 同じ広告費（約&yen;13,873/日）のまま、月間CV数を約300件→約450件へ。<strong>追加の広告費をかけずに月間+150件の仮審査フォーム送信が見込めます。</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 9. 実装優先順位 ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#0d1b4a">9</div>
+    <h2>実装優先順位 & アクションプラン</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">改善効果とリソースのバランスを考慮した実装の優先順位です。</p>
+
+    <div class="priority-card p1">
+      <div class="priority-num">P1</div>
+      <div class="priority-title" style="color:#dc2626">最優先: スマホ固定フッターバーの追加</div>
+      <div class="priority-desc">
+        <strong>工数: 小（CSS + HTML追加のみ）/ 効果: 大</strong><br>
+        既存LPに固定フッターバー（仮審査・LINE・電話の3ボタン）を追加するだけ。LP構成を変えずに実装でき、全ページで常時CTAが表示されるため、即効性が高い。
+      </div>
+    </div>
+
+    <div class="priority-card p1">
+      <div class="priority-num">P1</div>
+      <div class="priority-title" style="color:#dc2626">最優先: FVヘッドラインの変更</div>
+      <div class="priority-desc">
+        <strong>工数: 極小（テキスト変更のみ）/ 効果: 大</strong><br>
+        FVのキャッチコピーを「審査落ちでも大丈夫。金利0%の自社ローン」に変更。広告KWとの一致度を上げ、Quick Back率（7.46%）を低減。テキスト変更だけなので即日対応可能。
+      </div>
+    </div>
+
+    <div class="priority-card p2">
+      <div class="priority-num">P2</div>
+      <div class="priority-title" style="color:#ea580c">高優先: FV直後に不安解消チェックリスト追加</div>
+      <div class="priority-desc">
+        <strong>工数: 小（HTML追加）/ 効果: 大</strong><br>
+        「こんなお悩みありませんか?」→ 4つのチェックリスト →「全て対応可能です」のセクションをFV直後に追加。15%地点の46.6%離脱を25%以下に低減する最重要施策。
+      </div>
+    </div>
+
+    <div class="priority-card p2">
+      <div class="priority-num">P2</div>
+      <div class="priority-title" style="color:#ea580c">高優先: FAQセクションをページ前半に移動</div>
+      <div class="priority-desc">
+        <strong>工数: 中（HTML構成変更）/ 効果: 大</strong><br>
+        FAQを65%→20%位置に移動。到達率を33%→100%に改善。ユーザーが最も時間を使う（セッション29.7%）コンテンツを全員に見せる。FAQ直後にCTAボタンを配置。
+      </div>
+    </div>
+
+    <div class="priority-card p3">
+      <div class="priority-num">P3</div>
+      <div class="priority-title" style="color:#2563eb">中優先: CTAボタンのサイズ・色・数の改善</div>
+      <div class="priority-desc">
+        <strong>工数: 中 / 効果: 中-大</strong><br>
+        CTAボタンを高さ60px・オレンジ系・幅90%に変更し、LP内4箇所に配置。Dead Click（5.22%）対策としてタップ領域も48px以上に拡大。
+      </div>
+    </div>
+
+    <div class="priority-card p4">
+      <div class="priority-num">P4</div>
+      <div class="priority-title" style="color:#16a34a">次フェーズ: お客様の声セクション追加</div>
+      <div class="priority-desc">
+        <strong>工数: 中（コンテンツ収集必要）/ 効果: 中</strong><br>
+        40-54歳男性の事例を中心に、「審査落ちからの逆転ストーリー」を3件掲載。実際の利用者からの声を収集する必要があるため、P1-P3と並行して準備を進める。
+      </div>
+    </div>
+
+    <div class="priority-card p5">
+      <div class="priority-num">P5</div>
+      <div class="priority-title" style="color:#7c3aed">継続: A/Bテスト & データ計測</div>
+      <div class="priority-desc">
+        <strong>工数: 継続的 / 効果: 長期</strong><br>
+        FVヘッドライン3案のA/Bテスト実施。Clarityで改善後のスクロール深度・CTAタップ率・Dead Click率を計測し、継続的に改善。2週間サイクルでPDCAを回す。
+      </div>
+    </div>
+
+    <!-- 実装フロー -->
+    <h3 style="font-size:1em;margin:24px 0 12px;color:#0d1b4a">実装フロー</h3>
+    <div class="flow-row">
+      <div class="flow-box" style="background:#fef2f2;border:2px solid #fecaca">
+        <div class="flow-icon" style="font-size:1.4em">P1</div>
+        <div class="flow-title" style="color:#dc2626">固定バー追加<br>+ FV変更</div>
+        <div class="flow-sub">即日対応可能</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="background:#fff7ed;border:2px solid #fed7aa">
+        <div class="flow-icon" style="font-size:1.4em">P2</div>
+        <div class="flow-title" style="color:#ea580c">不安解消追加<br>+ FAQ移動</div>
+        <div class="flow-sub">1週間以内</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="background:#eff6ff;border:2px solid #bfdbfe">
+        <div class="flow-icon" style="font-size:1.4em">P3</div>
+        <div class="flow-title" style="color:#2563eb">CTA改善<br>+ デザイン調整</div>
+        <div class="flow-sub">2週間以内</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="background:#f0fdf4;border:2px solid #bbf7d0">
+        <div class="flow-icon" style="font-size:1.4em">P4</div>
+        <div class="flow-title" style="color:#16a34a">お客様の声<br>+ テスト開始</div>
+        <div class="flow-sub">1ヶ月以内</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 10. 参考サイト ==================== -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-num" style="background:#2563eb">10</div>
+    <h2>参考サイトリンク（提案構成に近いLP実例）</h2>
+  </div>
+  <div class="sec-body">
+
+    <p style="font-size:.9em;color:#64748b;margin-bottom:16px">提案した各改善要素を実際に実装している自社ローン・カーローン系LPです。それぞれのサイトが特に優れている要素を記載しています。</p>
+
+    <table>
+      <tr>
+        <th style="min-width:120px">サイト名</th>
+        <th>固定CTA<br>フッター</th>
+        <th>不安解消<br>チェック</th>
+        <th>複数<br>CTA</th>
+        <th>お客様<br>の声</th>
+        <th>ステップ<br>フロー</th>
+        <th>FAQ</th>
+        <th>特に参考になるポイント</th>
+      </tr>
+      <tr class="highlight-row">
+        <td><a href="https://car-revive.com/lp/2c/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">カーリバ</a></td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">固定フッターがフォーム到達時に自動非表示になる高度な実装。ステップに所要時間を明記</td>
+      </tr>
+      <tr>
+        <td><a href="https://auto-loan.biz/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">自社ローンの窓口</a></td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">6ペルソナ（新卒・延滞歴・自営業・主婦等）のお客様の声が秀逸</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><a href="https://lp01.mobiloan.jp/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">モビローン</a></td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">6つのペインポイントアイコンで即座に不安解消。提案のチェックリストに最も近い実装</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.otoron.jp/loan_lp" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">オトロン</a></td>
+        <td>-</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">3ステップの最もシンプルな構成。他社比較チャートで差別化を可視化</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><a href="https://getmycar.jp/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">ゲットマイカー</a></td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td style="text-align:left;font-size:.78em">FV直後「6つのポイント」で不安解消。詳細説明より先にポイント一覧を配置</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.otegorosha.com/loan/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">プラウド</a></td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td>-</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">「感情的な共感→解決策」のストーリーテリングをFV直後で実行</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><a href="https://carmatch-adachi-hiace.com/lp-hiace/" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:700">カーマッチ足立</a></td>
+        <td>-</td>
+        <td>-</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td class="check">◎</td>
+        <td style="text-align:left;font-size:.78em">FAQ内容の具体性が高い。検索KWに近いフレーズをQ&Aに使用</td>
+      </tr>
+    </table>
+
+    <div class="callout info" style="margin-top:20px">
+      <strong>総合推薦:</strong>
+      <ul style="margin:8px 0 0;padding-left:20px;font-size:.9em;line-height:1.8">
+        <li><strong>最も総合的な参考:</strong> <a href="https://car-revive.com/lp/2c/" target="_blank" style="color:#2563eb">カーリバ</a> — 6要素中5つを高い水準で実装。固定フッターの実装が最も洗練されている</li>
+        <li><strong>不安解消チェックリストの参考:</strong> <a href="https://lp01.mobiloan.jp/" target="_blank" style="color:#2563eb">モビローン</a> — ペインポイントアイコンによる即座の不安解消が提案に最も近い</li>
+        <li><strong>3ステップフローの参考:</strong> <a href="https://www.otoron.jp/loan_lp" target="_blank" style="color:#2563eb">オトロン</a> — 最もシンプルな3ステップ構成</li>
+        <li><strong>お客様の声の参考:</strong> <a href="https://auto-loan.biz/" target="_blank" style="color:#2563eb">自社ローンの窓口</a> — 6ペルソナを網羅した多様なユーザーボイス</li>
+      </ul>
+    </div>
+
+    <div class="callout insight" style="margin-top:12px">
+      <strong>差別化ポイント:</strong> FAQ上部配置を実装している競合サイトはほとんどありません。提案の「FAQ前倒し配置」は<strong>競合との明確な差別化</strong>になり、ニコニコカーローンの強みとなります。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== フッター ==================== -->
+<div class="footer">
+  <p>LP改善提案レポート｜ニコニコカーローン</p>
+  <p>作成日: 2026/02/27 ｜ データソース: Clarity, GA4, Google Ads（2/20-2/26）</p>
+  <p style="margin-top:8px">RUNBIRD inc.</p>
+</div>
+
+</body>
+</html>
