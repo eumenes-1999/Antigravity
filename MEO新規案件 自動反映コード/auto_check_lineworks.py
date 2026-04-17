@@ -58,6 +58,9 @@ def main():
                 group_elements[0].click()
                 print(f"✅ 「{TARGET_GROUP}」グループを開きました！")
                 time.sleep(4) # メッセージがロードされるのを少し待つ
+        except Exception:
+            pass
+            
         print("⏳ （※もし画面上で対象のグループが開かれていない場合は開いてください。）")
         print("⏳ 【重要】目的の「MEO運用依頼」のメッセージが昔のもので画面外にある場合は、")
         print("          ブラウザ上で『上にスクロール』して画面内に表示させてください！")
