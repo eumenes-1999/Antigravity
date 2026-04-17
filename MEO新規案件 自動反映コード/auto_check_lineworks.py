@@ -65,14 +65,14 @@ def main():
         time.sleep(10)
         
         # 3. 画面に映っている情報から特定メッセージ構造だけを賢く抽出 (DOM非依存ハック)
-        print("\n📥 表示されているチャットから「MEO運用依頼」のテキストを抽出しています...")
+        print("\n📥 表示されているチャットから「法人名」と「キーワード」を含むテキストを抽出しています...")
         
         target_message = page.evaluate('''() => {
             let elements = document.querySelectorAll('*');
             let candidates = [];
             for(let el of elements) {
                 let text = el.innerText || "";
-                if (text.includes("MEO運用依頼") && (text.includes("キーワード") || text.includes("希望キーワード")) && text.length < 3000) {
+                if (text.includes("法人名") && (text.includes("キーワード") || text.includes("希望キーワード")) && text.length < 5000) {
                     candidates.push(el);
                 }
             }
@@ -88,7 +88,7 @@ def main():
                 foundDeeper = false;
                 for(let child of innermost.children) {
                     let text = child.innerText || "";
-                    if(text.includes("MEO運用依頼") && (text.includes("キーワード") || text.includes("希望キーワード"))) {
+                    if(text.includes("法人名") && (text.includes("キーワード") || text.includes("希望キーワード"))) {
                         innermost = child;
                         foundDeeper = true;
                         break;
@@ -98,6 +98,26 @@ def main():
             return innermost.innerText.trim();
         }''')
                     
+        if not target_message:
+            # DOM取得で見つからなかった場合のフォールバック（正規表現）
+            body_text = page.evaluate("() => document.body.innerText")
+            print(f"【DEBUG情報】画面全体の取得文字数: {len(body_text)}文字")
+            print(f"  -> 「法人名」という文字は含まれているか？: {'法人名' in body_text}")
+            print(f"  -> 「キーワード」という文字は含まれているか？: {'キーワード' in body_text}")
+            
+            matches = re.findall(r'(法人名[\s\S]*?(?:希望)?キーワード[^\n]*(?:\n[^\n]+){0,2})', body_text)
+            if matches:
+                target_message = matches[-1].strip()
+            else:
+                print("【DEBUG情報】正規表現での抽出も失敗しました。画面情報の最初と最後を少し表示します：")
+                print("---------------------------------")
+                stripped = body_text.strip()
+                if len(stripped) > 500:
+                    print(stripped[:250] + "\n...(省略)...\n" + stripped[-250:])
+                else:
+                    print(stripped)
+                print("---------------------------------")
+
         if target_message:
             print("✨ 抽出大成功！以下の情報をシートへ転送します：\n")
             lines = target_message.split("\n")
