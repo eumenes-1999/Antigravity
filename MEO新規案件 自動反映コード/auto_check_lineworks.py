@@ -7,6 +7,69 @@ from playwright.sync_api import sync_playwright
 GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyLOinVRFQ8YJ5HxtsIt5ISsdgsgOsXNEnyQ4dRRuPDIxoW3N3DPZCzvzVuEuk_rg/exec"
 TARGET_GROUP = "MEO×運用"
 AUTH_FILE = "lineworks_auth.json"
+TEMPLATE_CONFIRM_TEXT = "内容を確認する"
+TEMPLATE_HOST = "template.worksmobile.com"
+
+
+def _body_has_request_fields(body_text: str) -> bool:
+    if "法人名" not in body_text:
+        return False
+    return "危険度" in body_text or "キーワード" in body_text
+
+
+def _extract_target_message(page):
+    """指定ページから依頼本文を抽出する（トーク／テンプレ詳細の両方で共通）。"""
+    body_text = page.evaluate("() => document.body.innerText")
+    target_message = page.evaluate(r'''() => {
+            const hasFields = (t) =>
+                t.includes("法人名") &&
+                (t.includes("危険度") || t.includes("キーワード"));
+            let elements = document.querySelectorAll('*');
+            let candidates = [];
+            for (let el of elements) {
+                let text = el.innerText || "";
+                if (hasFields(text) && text.length < 5000) {
+                    candidates.push(el);
+                }
+            }
+            if (candidates.length === 0) return null;
+
+            let lastEl = candidates[candidates.length - 1];
+            let innermost = lastEl;
+            let foundDeeper = true;
+            while (foundDeeper) {
+                foundDeeper = false;
+                for (let child of innermost.children) {
+                    let text = child.innerText || "";
+                    if (hasFields(text)) {
+                        innermost = child;
+                        foundDeeper = true;
+                        break;
+                    }
+                }
+            }
+            return innermost.innerText.trim();
+        }''')
+
+    if not target_message:
+        matches = re.findall(
+            r'(法人名[\s\S]*?(?:危険度|キーワード)[^\n]*(?:\n[^\n]+){0,10})',
+            body_text,
+        )
+        if matches:
+            target_message = matches[-1].strip()
+    return target_message, body_text
+
+
+def _open_template_popup(talk_page):
+    """トーク上の「内容を確認する」からテンプレ詳細ウィンドウを開き、その Page を返す。"""
+    with talk_page.expect_popup(timeout=30000) as popup_info:
+        talk_page.get_by_text(TEMPLATE_CONFIRM_TEXT).last.click()
+    tpl = popup_info.value
+    tpl.wait_for_load_state("domcontentloaded")
+    tpl.wait_for_url(f"**/{TEMPLATE_HOST}/**", timeout=60000)
+    return tpl
+
 
 def main():
     print("🚀 LINE WORKS 自動巡回エージェントを起動します...")
@@ -64,65 +127,48 @@ def main():
         print("⏳ （※もし画面上で対象のグループが開かれていない場合は開いてください。）")
         print("⏳ 【重要】目的の「MEO運用依頼」のメッセージが昔のもので画面外にある場合は、")
         print("          ブラウザ上で『上にスクロール』して画面内に表示させてください！")
-        print("          (最大60秒間、画面に表示されるのを監視して待ち続けます...)")
-        
-        # 画面に目的のテキストが現れるまで最大1分間ループで監視する
+        print("          (最大60秒間、「内容を確認する」または依頼本文の表示を監視します...)")
+
+        source_page = page
+        ready = False
         for _ in range(30):
             body_text = page.evaluate("() => document.body.innerText")
-            if "法人名" in body_text and ("キーワード" in body_text or "希望キーワード" in body_text):
-                print("✅ 画面上に依頼テキストを発見しました！抽出を開始します！")
-                time.sleep(1) # 表示が完全に終わるのを一瞬待つ
+            if _body_has_request_fields(body_text):
+                print("✅ トーク画面上に依頼本文（法人名＋危険度/キーワード）を確認しました！")
+                time.sleep(1)
+                ready = True
                 break
+            if TEMPLATE_CONFIRM_TEXT in body_text:
+                print(f"✅ 「{TEMPLATE_CONFIRM_TEXT}」を検出。テンプレ詳細ウィンドウを開きます…")
+                try:
+                    source_page = _open_template_popup(page)
+                    print(f"✅ テンプレ詳細を読み込みました ({TEMPLATE_HOST})")
+                    time.sleep(1)
+                    ready = True
+                    break
+                except Exception as e:
+                    print(f"⚠️ テンプレ詳細ウィンドウの取得に失敗しました: {e}")
+                    print("   手動で「内容を確認する」を押し、ウィンドウが開くまで待ってから再実行してください。")
             time.sleep(2)
         else:
-            print("⚠️ 60秒待機しましたが、画面上に「法人名」と「キーワード」を含むメッセージが定着しませんでした。")
+            print(
+                "⚠️ 60秒待機しましたが、「内容を確認する」も、"
+                "「法人名」と「危険度/キーワード」を揃えた本文もトーク上で確認できませんでした。"
+            )
 
-        
-        # 3. 画面に映っている情報から特定メッセージ構造だけを賢く抽出 (DOM非依存ハック)
-        print("\n📥 表示されているチャットから「法人名」と「キーワード」を含むテキストを抽出しています...")
-        
-        target_message = page.evaluate('''() => {
-            let elements = document.querySelectorAll('*');
-            let candidates = [];
-            for(let el of elements) {
-                let text = el.innerText || "";
-                if (text.includes("法人名") && (text.includes("キーワード") || text.includes("希望キーワード")) && text.length < 5000) {
-                    candidates.push(el);
-                }
-            }
-            if (candidates.length === 0) return null;
-            
-            // 画面の一番下にある（一番最後にマッチした）要素＝最新のメッセージ
-            let lastEl = candidates[candidates.length - 1];
-            
-            // さらにその子要素の中で条件を満たすものがあれば奥へ潜る（一番内側の吹き出しの箱を特定）
-            let innermost = lastEl;
-            let foundDeeper = true;
-            while(foundDeeper) {
-                foundDeeper = false;
-                for(let child of innermost.children) {
-                    let text = child.innerText || "";
-                    if(text.includes("法人名") && (text.includes("キーワード") || text.includes("希望キーワード"))) {
-                        innermost = child;
-                        foundDeeper = true;
-                        break;
-                    }
-                }
-            }
-            return innermost.innerText.trim();
-        }''')
-                    
+        # 3. トークまたはテンプレ詳細ページから本文を抽出
+        print(
+            "\n📥 表示中のページから「法人名」と「危険度/キーワード」を含むテキストを抽出しています..."
+        )
+
+        target_message, body_text = _extract_target_message(source_page)
+
         if not target_message:
-            # DOM取得で見つからなかった場合のフォールバック（正規表現）
-            body_text = page.evaluate("() => document.body.innerText")
             print(f"【DEBUG情報】画面全体の取得文字数: {len(body_text)}文字")
-            print(f"  -> 「法人名」という文字は含まれているか？: {'法人名' in body_text}")
-            print(f"  -> 「キーワード」という文字は含まれているか？: {'キーワード' in body_text}")
-            
-            matches = re.findall(r'(法人名[\s\S]*?(?:希望)?キーワード[^\n]*(?:\n[^\n]+){0,2})', body_text)
-            if matches:
-                target_message = matches[-1].strip()
-            else:
+            print(f"  -> 「法人名」: {'法人名' in body_text}")
+            print(f"  -> 「危険度」: {'危険度' in body_text}")
+            print(f"  -> 「キーワード」: {'キーワード' in body_text}")
+            if not ready:
                 print("【DEBUG情報】正規表現での抽出も失敗しました。画面情報の最初と最後を少し表示します：")
                 print("---------------------------------")
                 stripped = body_text.strip()
@@ -131,6 +177,8 @@ def main():
                 else:
                     print(stripped)
                 print("---------------------------------")
+            else:
+                print("【DEBUG情報】正規表現での抽出も失敗しました（テンプレ側の DOM 構造の可能性あり）。")
 
         if target_message:
             print("✨ 抽出大成功！以下の情報をシートへ転送します：\n")
