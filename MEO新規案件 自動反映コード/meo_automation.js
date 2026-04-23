@@ -8,6 +8,22 @@ function ensureStr_(v) {
   return String(v);
 }
 
+/** extract / 手入力どちらでも欠損キーがあっても write 側で落ちないようにする */
+function normalizeDataObject_(d) {
+  d = d || {};
+  var keys = [
+    'corpName', 'corpAddress', 'meoAddressCorp', 'storeName', 'storeAddress', 'meoAddressStore',
+    'repName', 'storePhone', 'callPhone', 'email', 'riskLevel', 'startDate', 'contractMonths',
+    'postCount', 'otherStore', 'reviewReply', 'hearing', 'instaLink', 'keywords'
+  ];
+  var out = {};
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    out[k] = ensureStr_(d[k]);
+  }
+  return out;
+}
+
 function doPost(e) {
   try {
     if (!e || !e.postData || !e.postData.contents) {
@@ -34,14 +50,24 @@ function doPost(e) {
        return ContentService.createTextOutput("Success (Not a target message)");
     }
     
-    let data = extractDataFromText(messageText);
-    writeToSheetA(data);
-    writeToSheetB(data);
-    
-    return ContentService.createTextOutput("Success");
+    var data = normalizeDataObject_(extractDataFromText(messageText));
+    try {
+      writeToSheetA(data);
+    } catch (eA) {
+      console.error(eA);
+      return ContentService.createTextOutput('Error SheetA: ' + eA.message);
+    }
+    try {
+      writeToSheetB(data);
+    } catch (eB) {
+      console.error(eB);
+      return ContentService.createTextOutput('Error SheetB: ' + eB.message);
+    }
+
+    return ContentService.createTextOutput('Success');
   } catch (error) {
     console.error(error);
-    return ContentService.createTextOutput("Error: " + error.message);
+    return ContentService.createTextOutput('Error: ' + error.message);
   }
 }
 
@@ -63,7 +89,7 @@ function extractDataFromText(text) {
       if (lines[i].match(labelRegex)) {
         // ラベルの次の行から3行先まで確認して、最初に現れた「意味のある文字」を取得
         for(let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
-           let val = lines[j];
+           var val = ensureStr_(lines[j]);
            // 注釈・説明書きと考えられる行はスキップ
            if (val.includes('※') || val.includes('同じであれば') || val.includes('ハイフン付') || 
                val.includes('カレンダー') || val.includes('記載') || val.includes('危険度低') || val.includes('有無の選択')) {
@@ -101,7 +127,7 @@ function extractDataFromText(text) {
   if (!keywords) keywords = parseFlexibly('希望キーワード.*');
   if (!keywords) keywords = parseFlexibly('キーワード');
 
-  return {
+  return normalizeDataObject_({
     corpName: parseFlexibly('法人名'),
     corpAddress: parseFlexibly('法人住所'),
     meoAddressCorp: parseFlexibly('MEO表示住所(?:[\\(（]法人[\\)）])?'),
@@ -121,7 +147,7 @@ function extractDataFromText(text) {
     hearing: parseFlexibly('店舗情報ヒアリング'),
     instaLink: parseFlexibly('インスタ連動'),
     keywords: ensureStr_(keywords)
-  };
+  });
 }
 
 // 日付を 2026/5/1 のように安全な形式でフォーマットする関数（入力規則エラー回避用）
@@ -139,14 +165,16 @@ function formatYMD_Safe(dateStr) {
 function getActualLastRow(sheet, colIndex) {
   const vals = sheet.getRange(1, colIndex, sheet.getMaxRows(), 1).getValues();
   for (let i = vals.length - 1; i >= 0; i--) {
-    if (vals[i][0] && vals[i][0].toString().trim() !== "") {
-      return i + 2; 
+    var cell = vals[i][0];
+    if (cell != null && cell !== '' && ensureStr_(cell).trim() !== '') {
+      return i + 2;
     }
   }
   return 2; // デフォルトは2行目から
 }
 
 function writeToSheetA(data) {
+  data = normalizeDataObject_(data);
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_A_NAME);
   if (!sheet) throw new Error("シートが見つかりません: " + SHEET_A_NAME);
   
@@ -180,6 +208,7 @@ function writeToSheetA(data) {
 }
 
 function writeToSheetB(data) {
+  data = normalizeDataObject_(data);
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_B_NAME);
   if (!sheet) throw new Error("シートが見つかりません: " + SHEET_B_NAME);
   

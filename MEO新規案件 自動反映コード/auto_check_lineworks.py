@@ -356,8 +356,22 @@ def main():
             response = requests.post(GAS_WEBHOOK_URL, json=payload, headers={'Content-Type': 'application/json'})
             
             if response.status_code == 200:
-                print(f"🎉 送信完了・スプレッドシートへの書き込み成功！！")
-                print(f"   (GASからの応答: {response.text})")
+                body = (response.text or "").strip()
+                if (
+                    body.startswith("Error")
+                    or "Error SheetA:" in body
+                    or "Error SheetB:" in body
+                    or "\nError:" in body
+                    or "Error: " in body[:220]
+                ):
+                    print("⚠️ HTTP は 200 ですが、GAS 応答にエラーが含まれています。シートは更新されていない可能性があります。")
+                    print(f"   (GASからの応答: {response.text})")
+                    print(
+                        "   → Apps Script のコードを最新の meo_automation.js に差し替え、ウェブアプリを再デプロイしてください。"
+                    )
+                else:
+                    print("🎉 送信完了・スプレッドシートへの書き込み成功！！")
+                    print(f"   (GASからの応答: {response.text})")
             else:
                 print(f"❌ 通信エラーが発生しました: {response.status_code} - {response.text}")
         else:
