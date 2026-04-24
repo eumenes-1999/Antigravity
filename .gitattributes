@@ -1,0 +1,24 @@
+# Normalize line endings as LF so Git does not rewrite HTML as "binary" merges that can garble text.
+* text=auto eol=lf
+
+*.html text
+*.htm text
+*.css text
+*.js text
+*.json text
+*.md text
+*.svg text
+*.ts text
+*.tsx text
+*.jsx text
+
+# Explicit binaries (do not apply text conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

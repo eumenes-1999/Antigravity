@@ -1,0 +1,13 @@
+# https://editorconfig.org — helps keep UTF-8 and LF so Japanese text does not corrupt on save.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.{html,htm,css,js,json,md,ts,tsx,jsx,vue}]
+indent_style = space
+
+[*.html]
+indent_size = 2
