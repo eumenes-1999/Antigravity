@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- Save as UTF-8 in your editor (see .editorconfig at repo root). -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>【新人研修】Google広告 入稿方法マニュアル</title>
@@ -729,6 +730,285 @@
     .mb-24 { margin-bottom: 24px; }
     .flex-col { display: flex; flex-direction: column; gap: 12px; }
 
+
+    /* ─── 入庫手順（画面付き・アコーディオン）・ライトボックス ─── */
+    .screenshot-intro {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      max-width: 860px;
+      line-height: 1.75;
+    }
+
+    .screenshot-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin: 0;
+    }
+
+    .screenshot-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-3);
+      cursor: zoom-in;
+      transition: opacity 0.15s ease;
+    }
+
+    .screenshot-card img:hover {
+      opacity: 0.94;
+    }
+
+    .screenshot-card img:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .entry-flow-block .screenshot-card {
+      max-width: 980px;
+    }
+
+    .entry-flow {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 920px;
+    }
+
+    .entry-flow__step {
+      margin-bottom: 12px;
+    }
+
+    .entry-flow__details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+
+    .entry-flow__details[open] {
+      box-shadow: var(--shadow-sm);
+    }
+
+    .entry-flow__summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .entry-flow__summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .entry-flow__summary::marker {
+      content: none;
+    }
+
+    .entry-flow__summary:hover {
+      background: var(--surface-3);
+    }
+
+    .entry-flow__num {
+      flex-shrink: 0;
+      min-width: 36px;
+      height: 36px;
+      background: var(--primary-dark);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+    }
+
+    .entry-flow__title {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 0;
+      text-align: left;
+      line-height: 1.35;
+    }
+
+    .entry-flow__chevron {
+      flex-shrink: 0;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--primary-dark);
+      border-bottom: 2px solid var(--primary-dark);
+      transform: rotate(45deg);
+      margin-top: -4px;
+      margin-right: 4px;
+      opacity: 0.75;
+      transition: transform 0.2s ease;
+    }
+
+    .entry-flow__details[open] .entry-flow__chevron {
+      transform: rotate(225deg);
+      margin-top: 4px;
+    }
+
+    .entry-flow__panel {
+      padding: 0 16px 18px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .entry-flow__text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 14px 0 16px;
+      line-height: 1.75;
+      max-width: 920px;
+    }
+
+    .entry-flow-hub {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      max-width: 1000px;
+      margin-top: 8px;
+    }
+
+    .entry-flow-hub-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .entry-flow-hub-link:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .entry-flow-hub-link h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 0 0 8px;
+    }
+
+    .entry-flow-hub-link p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      box-sizing: border-box;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .image-lightbox.image-lightbox--open {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .image-lightbox__backdrop {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: rgba(13, 32, 63, 0.85);
+      cursor: zoom-out;
+    }
+
+    .image-lightbox__sheet {
+      position: relative;
+      z-index: 1;
+      max-width: min(96vw, 1280px);
+      max-height: min(90vh, 900px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .image-lightbox__sheet > * {
+      pointer-events: auto;
+    }
+
+    .image-lightbox__close {
+      position: relative;
+      align-self: flex-end;
+      border: 0;
+      background: var(--surface);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+    }
+
+    .image-lightbox__close:hover {
+      background: var(--surface-3);
+    }
+
+    .image-lightbox__img-wrap {
+      max-width: 100%;
+      max-height: min(78vh, 820px);
+      overflow: auto;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+    }
+
+    .image-lightbox__img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .image-lightbox__caption {
+      color: #fff;
+      font-size: 13px;
+      text-align: center;
+      max-width: 720px;
+      margin: 0;
+      line-height: 1.5;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    body.image-lightbox-open {
+      overflow: hidden;
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
       .hero { padding: 56px 16px 72px; }
@@ -758,6 +1038,7 @@
 <nav class="nav-wrapper" aria-label="セクションナビゲーション">
   <div class="nav-inner">
     <a href="#section-intro" class="nav-item">📖 入稿とは</a>
+    <a href="#section-entry-flow" class="nav-item">📋 入庫手順</a>
     <a href="#section-structure" class="nav-item">🏗️ 階層構造</a>
     <a href="#section-account" class="nav-item">👤 アカウント作成</a>
     <a href="#section-campaign" class="nav-item">📢 キャンペーン設定</a>
@@ -808,7 +1089,7 @@
               <div class="step-num">1</div>
               <div class="step-content">
                 <h4>設定・入稿</h4>
-                <p>Google広告管理画面でキャンペーン〜広告を作成・登録する</p>
+                <p>Google広告管理画面でキャンペーン〜広告を作成・登録する（画面の流れは「<a href="#section-entry-flow">動画キャンペーン入庫手順</a>」の各章を参照）</p>
               </div>
             </div>
             <div class="step-item">
@@ -832,6 +1113,40 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ─── 動画キャンペーン入庫手順（目次） ─── -->
+  <section id="section-entry-flow" class="section">
+    <div class="section-header">
+      <div class="section-number">手</div>
+      <div class="section-title-wrap">
+        <h2>動画キャンペーン入庫手順（画面付き）</h2>
+        <p>新規動画キャンペーン作成時の主要画面を、章ごとに配置しています。<strong>見出しをクリック</strong>すると開閉できます（画像はクリックで拡大）。</p>
+      </div>
+    </div>
+    <p class="screenshot-intro">実務ではクライアントや案件ごとに<strong>入力値・必須項目・推奨設定</strong>が変わります。ここでは<strong>画面の位置関係と用語</strong>を掴むことを優先し、数値は研修用の例として読んでください。</p>
+    <div class="entry-flow-hub">
+      <a href="#account-entry-flow" class="entry-flow-hub-link">
+        <h3>アカウント作成手順</h3>
+        <p>画面付きの位置づけ（ウィザードとの関係）</p>
+      </a>
+      <a href="#campaign-entry-flow" class="entry-flow-hub-link">
+        <h3>キャンペーン設定</h3>
+        <p>予算・地域・フォーマット・スケジュールなど</p>
+      </a>
+      <a href="#group-entry-flow" class="entry-flow-hub-link">
+        <h3>広告グループ設定</h3>
+        <p>コンテンツ指定・オーディエンス・属性</p>
+      </a>
+      <a href="#ad-entry-flow" class="entry-flow-hub-link">
+        <h3>広告の作成と入稿</h3>
+        <p>テキスト・入札・動画の割当・プレビュー</p>
+      </a>
+    </div>
+    <div class="info-box blue mt-24">
+      <span class="info-icon">💡</span>
+      <p><strong>注意：</strong>Google 広告の UI は更新されることがあります。名称が多少異なっても、<strong>左ナビの大項目（キャンペーン設定 → 広告グループ → 広告 → 入札）</strong>の順で進むイメージは同じです。</p>
     </div>
   </section>
 
@@ -935,6 +1250,15 @@
         </div>
       </div>
     </div>
+    <div id="account-entry-flow" class="entry-flow-block mt-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">🖥️</span><h3>画面付き手順（アカウント作成との関係）</h3></div>
+        <div class="card-body">
+          <p class="screenshot-intro">このマニュアルで掲載している一連の画面キャプチャは、<strong>すでに Google 広告にログインできている状態から</strong>、新規で動画キャンペーンを追加するときのウィザードです。マネージャーアカウントからの<strong>新規クライアントアカウントの立ち上げ</strong>や通貨・タイムゾーンの指定は、上記の「アカウント作成の流れ」で行う別作業になります（アカウント新規作成専用のウィザード画面はここには含みません）。</p>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ─── 4. キャンペーン設定 ─── -->
@@ -1018,6 +1342,94 @@
         </div>
       </div>
     </div>
+    <div id="campaign-entry-flow" class="entry-flow-block mt-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">📷</span><h3>画面付き手順（キャンペーン設定）</h3></div>
+        <div class="card-body">
+          <p class="screenshot-intro">予算・デバイス・地域・言語、キャンペーン名とフォーマット、フリークエンシーと広告スケジュール、ウィザード終盤の確認までをまとめています。</p>
+          <ol class="entry-flow">
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">1</span><span class="entry-flow__title">予算と日程を入力する</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">「予算と日程」で予算タイプ・金額・開始日・終了日を入力します。赤字の「必須」が付いている欄は保存前に必ず埋めましょう。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-01.png" alt="Google広告 動画キャンペーン新規作成画面。予算と日程の入力フォームが表示されている" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">2</span><span class="entry-flow__title">配信デバイスを指定する</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">「デバイスごとにターゲティングを指定」を選び、パソコン・モバイル・タブレット・テレビ画面など、配信したい端末にチェックを入れます。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-02.png" alt="デバイス設定画面。モバイル・タブレット・テレビ画面にチェックが入っている" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">3</span><span class="entry-flow__title">地域と言語を設定する</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">「地域」で日本など配信エリアを、「言語」でユーザーの言語を指定します。ネットワーク（YouTube／GDN）の説明もこの付近で確認します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-03.png" alt="地域と言語の設定カード。日本とすべての言語が選ばれている" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">4</span><span class="entry-flow__title">キャンペーン名と広告フォーマットを選ぶ</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">キャンペーン名を確認し、スキップ可能インストリーム・インフィードなど、利用する広告フォーマットにチェックを入れます。案内文に従い、必要なフォーマットを漏れなく選びます。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-04.png" alt="キャンペーン名と広告フォーマットのチェックボックスが表示されている画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">5</span><span class="entry-flow__title">フリークエンシーと広告スケジュール（前半）</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">インプレッション／視聴のフリークエンシーキャップ、広告スケジュール、第三者測定などを確認し、広告グループ名を入力して次に進みます。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-05.png" alt="フリークエンシーキャップと広告スケジュール、広告グループ名入力欄の画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">6</span><span class="entry-flow__title">フリークエンシーと広告スケジュール（後半）</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">同じ周辺設定の続きです。終日配信やアカウントのタイムゾーン（日本時間など）に注意しながら、抜けがないか見直します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-06.png" alt="フリークエンシーとスケジュール設定の続きの画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">7</span><span class="entry-flow__title">設定の確認と「概要に進む」</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">「キャンペーンの準備が整いました」で期間・地域・言語・入札戦略・フォーマットを一覧確認し、問題なければ「概要に進む」をクリックします。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-13.png" alt="キャンペーン準備完了メッセージと概要に進むボタンが表示されている画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ─── 5. グループ設定 ─── -->
@@ -1113,6 +1525,50 @@
         </div>
       </div>
     </div>
+    <div id="group-entry-flow" class="entry-flow-block mt-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">📷</span><h3>画面付き手順（広告グループ設定）</h3></div>
+        <div class="card-body">
+          <p class="screenshot-intro">コンテンツ指定（キーワード・トピック・プレースメント）と YouTube 動画 URL、広告グループとオーディエンス、デモグラフィックまでをまとめています。</p>
+          <ol class="entry-flow">
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">1</span><span class="entry-flow__title">コンテンツ指定と YouTube 動画 URL</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">キーワード・トピック・プレースメントの各ブロックを展開し、必要に応じて追加します。「お客様の YouTube 動画」は必須のため、URL 貼り付けまたは検索で指定します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-07.png" alt="コンテンツターゲティングと YouTube 動画 URL 入力欄の画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">2</span><span class="entry-flow__title">広告グループとオーディエンス</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">広告グループ名を確定し、オーディエンス名やユーザー属性の絞り込み、保存済みオーディエンスの追加などを行います。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-08.png" alt="広告グループ作成とオーディエンス設定の画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">3</span><span class="entry-flow__title">オーディエンスの属性（デモグラ）</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">性別・年齢帯などを指定します。「不明」を含めるかはリーチと精度のバランスで決め、クライアント方針とすり合わせましょう。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-09.png" alt="オーディエンスの性別・年齢を指定している画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ─── 6. 広告作成 ─── -->
@@ -1188,6 +1644,61 @@
         </div>
       </div>
     </div>
+    <div id="ad-entry-flow" class="entry-flow-block mt-24">
+      <div class="card">
+        <div class="card-header"><span class="icon">📷</span><h3>画面付き手順（広告の作成と入稿）</h3></div>
+        <div class="card-body">
+          <p class="screenshot-intro">表示 URL・見出し・説明、入札単価、最終 URL と訴求の仕上げ、動画の割当とプレビューまでをまとめています。</p>
+          <ol class="entry-flow">
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">1</span><span class="entry-flow__title">表示 URL・見出し・説明文を入力する</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">表示 URL、長い広告見出し、説明文など、文字数制限のある必須項目を入力します。プレビューで表示崩れがないかも確認します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-10.png" alt="表示URLと長い見出し・説明文など広告テキスト入力フォームの画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">2</span><span class="entry-flow__title">入札単価（目標 CPV）を設定する</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">「この広告グループに入札単価を設定」で、目標広告視聴単価（例：10 円）を入力します。右の「見込まれる成果」で、まだ足りない設定がないかも見ます。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-11.png" alt="入札単価で目標広告視聴単価に10円が入力されている画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">3</span><span class="entry-flow__title">最終 URL と訴求の仕上げ</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">最終ページ URL、行動を促すフレーズ、見出し・説明を仕上げます。マルチフォーマット動画の案内やコンパニオン バナーなど、オプションもこの段階で確認します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-12.png" alt="最終URL・行動を促すフレーズ・見出し入力など広告作成の続きの画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+            <li class="entry-flow__step">
+              <details class="entry-flow__details">
+                <summary class="entry-flow__summary"><span class="entry-flow__num" aria-hidden="true">4</span><span class="entry-flow__title">動画の割当とプレビュー</span><span class="entry-flow__chevron" aria-hidden="true"></span></summary>
+                <div class="entry-flow__panel">
+                  <p class="entry-flow__text">YouTube 動画を割り当てた状態で、モバイル等のプレビューを確認します。縦型バージョン取得など、パフォーマンス向けの案内が出たら内容を読んで判断します。</p>
+                  <figure class="screenshot-card">
+                    <img src="images/flow-14.png" alt="YouTube動画が追加されプレビューが表示されている動画広告作成画面" loading="lazy" decoding="async" />
+                  </figure>
+                </div>
+              </details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ─── 7. 詳細設定・最適化 ─── -->
@@ -1384,7 +1895,7 @@
         <p>1日の予算上限に達すると自動的に配信が停止されます。</p>
         <ul class="solution-list">
           <li>管理画面でキャンペーンの「予算」を確認する</li>
-          <li>クライアントと相談のうえ、予算を増額する</li>
+          <li>クライアントと相談のうえ、予算を増額する<br /><span style="font-size:13px; color:var(--text-secondary);">※ただし使用できる金額は、日予算の2倍までです。使用期間は次の定例会開催日までです。</span></li>
           <li>配信スケジュールを見直して予算消化を分散させる</li>
         </ul>
       </div>
@@ -1546,6 +2057,17 @@
 
 </main>
 
+<div id="image-lightbox" class="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="画像拡大表示">
+  <button type="button" class="image-lightbox__backdrop" aria-label="拡大表示を閉じる"></button>
+  <div class="image-lightbox__sheet">
+    <button type="button" class="image-lightbox__close" aria-label="閉じる">×</button>
+    <div class="image-lightbox__img-wrap">
+      <img class="image-lightbox__img" src="" alt="" decoding="async" />
+    </div>
+    <p class="image-lightbox__caption"></p>
+  </div>
+</div>
+
 <footer>
   <p>Google広告 入稿方法 新人研修資料 &copy; 2025 | 社内研修用・社外秘</p>
 </footer>
@@ -1598,6 +2120,68 @@
     section.style.animationPlayState = 'paused';
     observer.observe(section);
   });
+</script>
+
+
+<script>
+(function () {
+  const root = document.getElementById('image-lightbox');
+  if (!root) return;
+  const backdrop = root.querySelector('.image-lightbox__backdrop');
+  const btnClose = root.querySelector('.image-lightbox__close');
+  const lbImg = root.querySelector('.image-lightbox__img');
+  const cap = root.querySelector('.image-lightbox__caption');
+  let lastFocus = null;
+
+  function openFrom(imgEl) {
+    lastFocus = document.activeElement;
+    lbImg.src = imgEl.currentSrc || imgEl.src;
+    lbImg.alt = imgEl.getAttribute('alt') || '';
+    const fig = imgEl.closest('figure');
+    const fc = fig && fig.querySelector('figcaption');
+    cap.textContent = fc ? fc.innerText.replace(/\s+/g, ' ').trim() : '';
+    root.classList.add('image-lightbox--open');
+    root.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('image-lightbox-open');
+    btnClose.focus();
+  }
+
+  function closeLb() {
+    root.classList.remove('image-lightbox--open');
+    root.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('image-lightbox-open');
+    lbImg.removeAttribute('src');
+    lbImg.alt = '';
+    cap.textContent = '';
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+      lastFocus.focus();
+    }
+  }
+
+  document.querySelectorAll(
+    '#section-campaign .entry-flow-block .screenshot-card img, #section-group .entry-flow-block .screenshot-card img, #section-ad .entry-flow-block .screenshot-card img'
+  ).forEach(function (img) {
+    if (img.closest('[data-no-lightbox]')) return;
+    img.tabIndex = 0;
+    img.addEventListener('click', function () {
+      openFrom(img);
+    });
+    img.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openFrom(img);
+      }
+    });
+  });
+
+  backdrop.addEventListener('click', closeLb);
+  btnClose.addEventListener('click', closeLb);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && root.classList.contains('image-lightbox--open')) {
+      closeLb();
+    }
+  });
+})();
 </script>
 
 </body>
