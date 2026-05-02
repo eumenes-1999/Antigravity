@@ -1,4 +1,9 @@
 # 危険な認証情報のプッシュ防止
+ブログ更新/.wp.env
 lineworks_auth.json
 google_credentials.json
+*credentials.json
+*token.json
 copy_helper.html
+
+wp_markdown_draft/.venv/
